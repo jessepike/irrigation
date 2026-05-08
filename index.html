@@ -1,0 +1,1225 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b3d2e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Pike Irrigation">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>Pike Irrigation</title>
+<style>
+  :root {
+    --bg: #0b1410;
+    --panel: #142420;
+    --panel-2: #1c2f29;
+    --line: #2a4039;
+    --text: #e8f0ec;
+    --muted: #8aa39b;
+    --accent: #4ade80;
+    --accent-2: #22c55e;
+    --warn: #f59e0b;
+    --off: #4a5852;
+    --done-bg: #0e2418;
+    --done-text: #5d7a6e;
+    --shadow: 0 1px 0 rgba(255,255,255,.03), 0 1px 2px rgba(0,0,0,.4);
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #f4f8f6;
+      --panel: #ffffff;
+      --panel-2: #ecf3ef;
+      --line: #d8e3dd;
+      --text: #0f1f1a;
+      --muted: #5a6e67;
+      --accent: #16a34a;
+      --accent-2: #15803d;
+      --warn: #b45309;
+      --off: #a3b3ac;
+      --done-bg: #e8f3ec;
+      --done-text: #6a807a;
+      --shadow: 0 1px 0 rgba(0,0,0,.03), 0 1px 2px rgba(0,0,0,.06);
+    }
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); }
+  body {
+    font: 16px/1.45 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, system-ui, sans-serif;
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+    min-height: 100dvh;
+  }
+  header.app {
+    position: sticky; top: 0; z-index: 10;
+    background: var(--panel);
+    border-bottom: 1px solid var(--line);
+    padding: 10px 14px 12px;
+    box-shadow: var(--shadow);
+  }
+  .row { display: flex; align-items: center; gap: 10px; }
+  .between { justify-content: space-between; }
+  h1 { font-size: 16px; margin: 0; letter-spacing: .2px; }
+  .subtle { color: var(--muted); font-size: 12px; }
+  .pill { font-size: 11px; color: var(--muted); padding: 2px 8px; border: 1px solid var(--line); border-radius: 999px; }
+  .toggle {
+    display: inline-flex; background: var(--panel-2); border: 1px solid var(--line);
+    border-radius: 10px; padding: 2px; margin-top: 10px; width: 100%;
+  }
+  .toggle button {
+    flex: 1; padding: 10px 12px; font: inherit; color: var(--muted);
+    background: transparent; border: 0; border-radius: 8px; cursor: pointer;
+    font-weight: 600; letter-spacing: .2px;
+  }
+  .toggle button.active { background: var(--bg); color: var(--text); box-shadow: var(--shadow); }
+  .actions { margin-top: 10px; display: flex; gap: 8px; flex-wrap: wrap; }
+  .btn {
+    background: var(--panel-2); color: var(--text); border: 1px solid var(--line);
+    border-radius: 8px; padding: 8px 12px; font: inherit; font-size: 13px; cursor: pointer;
+  }
+  .btn:active { transform: translateY(1px); }
+  main { padding: 14px; max-width: 720px; margin: 0 auto; }
+  section.group { margin-bottom: 18px; }
+  .group-head {
+    font-size: 11px; text-transform: uppercase; letter-spacing: 1.2px;
+    color: var(--muted); margin: 14px 4px 6px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .group-head .progress { font-variant-numeric: tabular-nums; }
+  .program-head {
+    font-size: 12px; font-weight: 700; color: var(--accent); margin: 10px 6px 6px;
+    letter-spacing: .8px;
+  }
+  ul.cards { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+  li.card {
+    background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
+    padding: 12px 12px 12px 14px; display: flex; align-items: center; gap: 12px;
+    box-shadow: var(--shadow); position: relative;
+    transition: opacity .15s, background .15s;
+  }
+  li.card.off { opacity: .55; }
+  li.card.done { background: var(--done-bg); }
+  li.card.done .name, li.card.done .meta { color: var(--done-text); text-decoration: line-through; text-decoration-thickness: 1px; }
+  li.card .name { font-weight: 600; font-size: 15px; flex: 1; min-width: 0; }
+  li.card .meta { color: var(--muted); font-size: 12px; margin-top: 2px; font-variant-numeric: tabular-nums; }
+  li.card .right { text-align: right; }
+  li.card .time { font-weight: 700; font-size: 14px; font-variant-numeric: tabular-nums; }
+  li.card .dur { font-size: 12px; color: var(--muted); }
+  li.card .badge {
+    display: inline-block; font-size: 10px; padding: 2px 6px; border-radius: 4px;
+    background: var(--panel-2); color: var(--muted); margin-left: 4px; letter-spacing: .5px;
+    border: 1px solid var(--line); font-weight: 700;
+  }
+  li.card .badge.off { color: var(--warn); border-color: var(--warn); }
+  li.card .badge.unsched { color: var(--off); }
+  /* Custom checkbox */
+  .cb {
+    flex-shrink: 0; width: 28px; height: 28px; border-radius: 8px;
+    border: 2px solid var(--line); background: transparent; cursor: pointer;
+    display: grid; place-items: center; transition: all .12s;
+  }
+  .cb:active { transform: scale(.92); }
+  li.card.done .cb { background: var(--accent); border-color: var(--accent); }
+  .cb svg { width: 16px; height: 16px; color: var(--bg); opacity: 0; transition: opacity .12s; }
+  li.card.done .cb svg { opacity: 1; }
+  /* Timeline view */
+  .tl-hour {
+    font-size: 11px; text-transform: uppercase; letter-spacing: 1.2px;
+    color: var(--muted); margin: 18px 4px 6px;
+  }
+  .tl-hour.now { color: var(--accent); }
+  .tl-card { display: flex; align-items: center; gap: 12px; }
+  .tl-card .time-col { width: 64px; flex-shrink: 0; }
+  .tl-card .time-col .time { font-weight: 700; font-variant-numeric: tabular-nums; font-size: 14px; }
+  .tl-card .time-col .dur { font-size: 11px; color: var(--muted); }
+  .tl-card .body { flex: 1; min-width: 0; }
+  .tl-card.now-event { box-shadow: 0 0 0 2px var(--accent); }
+  /* Footer */
+  footer.foot {
+    color: var(--muted); font-size: 11px; text-align: center; padding: 24px 14px 40px;
+  }
+  .empty {
+    color: var(--muted); text-align: center; padding: 40px 20px; font-size: 14px;
+  }
+  /* "Now" indicator */
+  .now-tag {
+    display: inline-block; font-size: 10px; padding: 1px 6px; border-radius: 4px;
+    background: var(--accent); color: var(--bg); margin-left: 6px; letter-spacing: .5px;
+    font-weight: 800;
+  }
+  /* Hide scrollbar on horizontal anything */
+  .nowrap { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  /* Edit indicator dot on cards */
+  .edit-dot {
+    display: inline-block; width: 7px; height: 7px; border-radius: 50%;
+    background: var(--warn); margin-left: 6px; vertical-align: middle;
+  }
+  li.card.edited { border-color: var(--warn); }
+  /* Changes button badge */
+  #changesBtn .badge-count {
+    display: inline-block; background: var(--warn); color: var(--bg);
+    border-radius: 999px; padding: 0 7px; font-size: 11px; font-weight: 800;
+    margin-left: 6px; min-width: 18px; text-align: center;
+  }
+  /* Modal backdrop + bottom sheet */
+  .modal-backdrop {
+    position: fixed; inset: 0; background: rgba(0,0,0,.55);
+    display: none; z-index: 100; align-items: flex-end; justify-content: center;
+    -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px);
+  }
+  .modal-backdrop.open { display: flex; }
+  .sheet {
+    background: var(--panel); width: 100%; max-width: 720px;
+    border-radius: 18px 18px 0 0;
+    padding: 18px 18px calc(20px + env(safe-area-inset-bottom));
+    border-top: 1px solid var(--line);
+    max-height: 88vh; overflow-y: auto;
+    animation: slideUp .18s ease-out;
+  }
+  @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+  .sheet h2 { font-size: 17px; margin: 0 0 4px; }
+  .sheet .label {
+    font-size: 11px; color: var(--muted); margin: 16px 0 6px;
+    text-transform: uppercase; letter-spacing: 1.2px; font-weight: 700;
+  }
+  .sheet input[type="time"], .sheet input[type="number"] {
+    background: var(--panel-2); color: var(--text); border: 1px solid var(--line);
+    border-radius: 10px; padding: 12px; font: inherit; font-size: 16px; width: 100%;
+    -webkit-appearance: none; appearance: none;
+  }
+  .stepper { display: flex; align-items: center; gap: 8px; }
+  .stepper button {
+    width: 48px; height: 48px; border-radius: 12px; flex-shrink: 0;
+    background: var(--panel-2); border: 1px solid var(--line); color: var(--text);
+    font-size: 22px; font-weight: 700; cursor: pointer;
+  }
+  .stepper button:active { transform: scale(.94); }
+  .stepper input { flex: 1; text-align: center; font-weight: 700; font-size: 16px; }
+  .toggle-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 14px; background: var(--panel-2); border-radius: 12px;
+    border: 1px solid var(--line); margin-top: 6px;
+  }
+  .switch { position: relative; width: 50px; height: 30px; flex-shrink: 0; }
+  .switch input { opacity: 0; width: 0; height: 0; }
+  .switch .slider {
+    position: absolute; inset: 0; background: var(--line); border-radius: 15px;
+    transition: .15s; cursor: pointer;
+  }
+  .switch .slider::before {
+    content: ''; position: absolute; top: 3px; left: 3px; width: 24px; height: 24px;
+    background: var(--bg); border-radius: 50%; transition: .15s;
+  }
+  .switch input:checked + .slider { background: var(--warn); }
+  .switch input:checked + .slider::before { transform: translateX(20px); }
+  .sheet .actions-row { display: flex; gap: 8px; margin-top: 20px; }
+  .sheet .actions-row .btn { flex: 1; padding: 13px; font-size: 14px; font-weight: 600; }
+  .sheet .btn-primary { background: var(--accent); color: var(--bg); border-color: var(--accent); font-weight: 700; }
+  .sheet .btn-warn { color: var(--warn); border-color: var(--warn); }
+  .sheet .meta-row { color: var(--muted); font-size: 12px; }
+  .changelog-list {
+    list-style: none; padding: 0; margin: 14px 0 4px;
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .changelog-list li {
+    background: var(--panel-2); border: 1px solid var(--line); border-radius: 10px;
+    padding: 10px 12px; font-size: 13px;
+  }
+  .changelog-list li .name { font-weight: 700; margin-bottom: 4px; }
+  .changelog-list li .change {
+    color: var(--muted); font-variant-numeric: tabular-nums; font-size: 12px;
+  }
+  .changelog-list li .arrow { color: var(--accent); margin: 0 6px; font-weight: 700; }
+  .toast {
+    position: fixed; bottom: calc(20px + env(safe-area-inset-bottom)); left: 50%;
+    transform: translateX(-50%); background: var(--accent); color: var(--bg);
+    padding: 10px 16px; border-radius: 10px; font-size: 13px; font-weight: 700;
+    z-index: 200; opacity: 0; transition: opacity .15s;
+    pointer-events: none;
+  }
+  .toast.show { opacity: 1; }
+</style>
+</head>
+<body>
+<header class="app">
+  <div class="row between">
+    <h1>Pike Irrigation</h1>
+    <span class="pill" id="progressPill">0 / 0</span>
+  </div>
+  <div class="subtle" style="margin-top:2px"><span id="dateLabel"></span> · <span id="clockLabel"></span></div>
+  <div class="toggle" role="tablist">
+    <button id="tabValve" class="active" role="tab">By Valve</button>
+    <button id="tabTime" role="tab">Timeline</button>
+  </div>
+  <div class="actions">
+    <button class="btn" id="resetBtn">Reset checks</button>
+    <button class="btn" id="hideOffBtn">Hide OFF/unscheduled</button>
+    <button class="btn" id="changesBtn">Changes</button>
+  </div>
+</header>
+<main id="main"></main>
+<footer class="foot">
+  <div>Source: Pike - Watering Schedule.xlsx</div>
+  <div id="lastUpdated" style="margin-top:4px"></div>
+</footer>
+
+<!-- Edit bottom-sheet -->
+<div class="modal-backdrop" id="editBackdrop" role="dialog" aria-modal="true">
+  <div class="sheet" id="editSheet">
+    <h2 id="editTitle">Edit station</h2>
+    <div class="meta-row" id="editMeta"></div>
+    <div class="label">Start time</div>
+    <input type="time" id="editTime" step="60">
+    <div class="label">Duration</div>
+    <div class="stepper">
+      <button id="durMinus" type="button" aria-label="Decrease duration">−</button>
+      <input type="number" id="editDur" min="0" max="240" step="5" inputmode="numeric">
+      <button id="durPlus" type="button" aria-label="Increase duration">+</button>
+    </div>
+    <div class="meta-row" style="margin-top:6px">Minutes (5-min steps)</div>
+    <div class="label">Skip today</div>
+    <label class="toggle-row">
+      <span>Don't run this station</span>
+      <span class="switch"><input type="checkbox" id="editOff"><span class="slider"></span></span>
+    </label>
+    <div class="actions-row">
+      <button class="btn" type="button" id="editCancel">Cancel</button>
+      <button class="btn btn-warn" type="button" id="editReset">Reset</button>
+      <button class="btn btn-primary" type="button" id="editSave">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- Changelog modal -->
+<div class="modal-backdrop" id="changesBackdrop" role="dialog" aria-modal="true">
+  <div class="sheet" id="changesSheet">
+    <h2>Changes to sync</h2>
+    <div class="meta-row">Paste these into your master Sheet, then mark synced.</div>
+    <ul class="changelog-list" id="changelogList"></ul>
+    <div class="actions-row">
+      <button class="btn" type="button" id="changesClose">Close</button>
+      <button class="btn" type="button" id="changesCopy">Copy</button>
+      <button class="btn btn-primary" type="button" id="changesMarkSynced">Mark synced</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ============ Data (inlined; replace with fetch() to a CSV/JSON later) ============
+const STATIONS = [
+  {
+    "name": "Back Lawn",
+    "valve": 1,
+    "program": "A",
+    "station_num": 1,
+    "off": false,
+    "schedule": [
+      {
+        "col": 11,
+        "time_label": "10:00 AM",
+        "minutes_since_anchor": 90,
+        "duration_min": 30
+      }
+    ]
+  },
+  {
+    "name": "Back Hillside Lawn 1",
+    "valve": 1,
+    "program": "A",
+    "station_num": 2,
+    "off": false,
+    "schedule": [
+      {
+        "col": 13,
+        "time_label": "10:30 AM",
+        "minutes_since_anchor": 120,
+        "duration_min": 45
+      }
+    ]
+  },
+  {
+    "name": "Back Lawn Beds Drip",
+    "valve": 1,
+    "program": "B",
+    "station_num": 3,
+    "off": false,
+    "schedule": [
+      {
+        "col": 16,
+        "time_label": "11:15 AM",
+        "minutes_since_anchor": 165,
+        "duration_min": 45
+      }
+    ]
+  },
+  {
+    "name": "Front Lawn 1",
+    "valve": 2,
+    "program": "A",
+    "station_num": 1,
+    "off": true,
+    "schedule": []
+  },
+  {
+    "name": "Front Lawn 2",
+    "valve": 2,
+    "program": "A",
+    "station_num": 2,
+    "off": false,
+    "schedule": [
+      {
+        "col": 69,
+        "time_label": "12:30 AM",
+        "minutes_since_anchor": 960,
+        "duration_min": 60
+      }
+    ]
+  },
+  {
+    "name": "Front Lawn 3",
+    "valve": 2,
+    "program": "A",
+    "station_num": 3,
+    "off": false,
+    "schedule": [
+      {
+        "col": 73,
+        "time_label": "1:30 AM",
+        "minutes_since_anchor": 1020,
+        "duration_min": 60
+      }
+    ]
+  },
+  {
+    "name": "Front Lawn 4",
+    "valve": 2,
+    "program": "A",
+    "station_num": 4,
+    "off": false,
+    "schedule": [
+      {
+        "col": 77,
+        "time_label": "2:30 AM",
+        "minutes_since_anchor": 1080,
+        "duration_min": 60
+      }
+    ]
+  },
+  {
+    "name": "Garden Trees Drip",
+    "valve": 3,
+    "program": "A",
+    "station_num": 1,
+    "off": false,
+    "schedule": [
+      {
+        "col": 19,
+        "time_label": "12:00 PM",
+        "minutes_since_anchor": 210,
+        "duration_min": 60
+      }
+    ]
+  },
+  {
+    "name": "Side Hillside Trees Drip",
+    "valve": 4,
+    "program": "A",
+    "station_num": 1,
+    "off": false,
+    "schedule": [
+      {
+        "col": 30,
+        "time_label": "2:45 PM",
+        "minutes_since_anchor": 375,
+        "duration_min": 60
+      }
+    ]
+  },
+  {
+    "name": "Side Lawn 1",
+    "valve": 5,
+    "program": "A",
+    "station_num": 1,
+    "off": false,
+    "schedule": [
+      {
+        "col": 59,
+        "time_label": "10:00 PM",
+        "minutes_since_anchor": 810,
+        "duration_min": 30
+      }
+    ]
+  },
+  {
+    "name": "Back Hillside Lawn 2",
+    "valve": 5,
+    "program": "A",
+    "station_num": 2,
+    "off": false,
+    "schedule": [
+      {
+        "col": 61,
+        "time_label": "10:30 PM",
+        "minutes_since_anchor": 840,
+        "duration_min": 45
+      }
+    ]
+  },
+  {
+    "name": "Side Back Bed Drip",
+    "valve": 5,
+    "program": "B",
+    "station_num": 3,
+    "off": false,
+    "schedule": [
+      {
+        "col": 64,
+        "time_label": "11:15 PM",
+        "minutes_since_anchor": 885,
+        "duration_min": 30
+      }
+    ]
+  },
+  {
+    "name": "Side Lawn 2",
+    "valve": 6,
+    "program": "A",
+    "station_num": 1,
+    "off": false,
+    "schedule": [
+      {
+        "col": 66,
+        "time_label": "11:45 PM",
+        "minutes_since_anchor": 915,
+        "duration_min": 30
+      }
+    ]
+  },
+  {
+    "name": "Side Front Bed Drip",
+    "valve": 6,
+    "program": "B",
+    "station_num": 2,
+    "off": false,
+    "schedule": [
+      {
+        "col": 68,
+        "time_label": "12:15 AM",
+        "minutes_since_anchor": 945,
+        "duration_min": 45
+      }
+    ]
+  },
+  {
+    "name": "Garden lawn 1",
+    "valve": null,
+    "program": null,
+    "station_num": null,
+    "off": false,
+    "schedule": [
+      {
+        "col": 52,
+        "time_label": "8:15 PM",
+        "minutes_since_anchor": 705,
+        "duration_min": 45
+      }
+    ]
+  },
+  {
+    "name": "Garden lawn 2",
+    "valve": null,
+    "program": null,
+    "station_num": null,
+    "off": false,
+    "schedule": [
+      {
+        "col": 55,
+        "time_label": "9:00 PM",
+        "minutes_since_anchor": 750,
+        "duration_min": 60
+      }
+    ]
+  },
+  {
+    "name": "Garden lawn 3",
+    "valve": null,
+    "program": null,
+    "station_num": null,
+    "off": false,
+    "schedule": [
+      {
+        "col": 48,
+        "time_label": "7:15 PM",
+        "minutes_since_anchor": 645,
+        "duration_min": 60
+      }
+    ]
+  },
+  {
+    "name": "Island sprays 1",
+    "valve": null,
+    "program": null,
+    "station_num": null,
+    "off": false,
+    "schedule": [
+      {
+        "col": 43,
+        "time_label": "6:00 PM",
+        "minutes_since_anchor": 570,
+        "duration_min": 30
+      }
+    ]
+  },
+  {
+    "name": "Island sprays 2",
+    "valve": null,
+    "program": null,
+    "station_num": null,
+    "off": false,
+    "schedule": []
+  },
+  {
+    "name": "Island drip",
+    "valve": null,
+    "program": null,
+    "station_num": null,
+    "off": false,
+    "schedule": [
+      {
+        "col": 45,
+        "time_label": "6:30 PM",
+        "minutes_since_anchor": 600,
+        "duration_min": 30
+      }
+    ]
+  },
+  {
+    "name": "Top Garden 1",
+    "valve": null,
+    "program": null,
+    "station_num": 1,
+    "off": false,
+    "schedule": []
+  },
+  {
+    "name": "Top Garden 2",
+    "valve": null,
+    "program": null,
+    "station_num": 2,
+    "off": false,
+    "schedule": []
+  },
+  {
+    "name": "Front Garage Rotors",
+    "valve": null,
+    "program": null,
+    "station_num": 1,
+    "off": false,
+    "schedule": [
+      {
+        "col": 81,
+        "time_label": "3:30 AM",
+        "minutes_since_anchor": 1140,
+        "duration_min": 45
+      }
+    ]
+  },
+  {
+    "name": "Front Garage Drip",
+    "valve": null,
+    "program": null,
+    "station_num": 2,
+    "off": false,
+    "schedule": [
+      {
+        "col": 84,
+        "time_label": "4:15 AM",
+        "minutes_since_anchor": 1185,
+        "duration_min": 45
+      }
+    ]
+  },
+  {
+    "name": "Hot Tub Plants sprays",
+    "valve": null,
+    "program": null,
+    "station_num": 1,
+    "off": false,
+    "schedule": [
+      {
+        "col": 39,
+        "time_label": "5:00 PM",
+        "minutes_since_anchor": 510,
+        "duration_min": 30
+      }
+    ]
+  },
+  {
+    "name": "Hot Tub Plants Drip",
+    "valve": null,
+    "program": null,
+    "station_num": null,
+    "off": false,
+    "schedule": [
+      {
+        "col": 41,
+        "time_label": "5:30 PM",
+        "minutes_since_anchor": 540,
+        "duration_min": 30
+      }
+    ]
+  }
+];
+const GENERATED_AT = "2026-05-08 01:21";
+
+// ============ Helpers ============
+const $ = (sel, root=document) => root.querySelector(sel);
+const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+const todayKey = () => {
+  const d = new Date();
+  return `pike-irrig:${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+};
+const loadDone = () => {
+  try { return new Set(JSON.parse(localStorage.getItem(todayKey()) || '[]')); }
+  catch { return new Set(); }
+};
+const saveDone = (set) => localStorage.setItem(todayKey(), JSON.stringify([...set]));
+let DONE = loadDone();
+
+// ============ Overrides (local edits) ============
+const OVERRIDES_KEY = 'pike-irrig:overrides';
+function loadOverrides() {
+  try { return JSON.parse(localStorage.getItem(OVERRIDES_KEY) || '{}'); }
+  catch { return {}; }
+}
+function saveOverrides(o) { localStorage.setItem(OVERRIDES_KEY, JSON.stringify(o)); }
+let OVERRIDES = loadOverrides();
+
+// Convert "HH:MM" 24h -> { time_label, minutes_since_anchor }
+function from24h(hhmm) {
+  const [hh, mm] = hhmm.split(':').map(Number);
+  const totalMin = hh*60 + mm;
+  const anchor = 8*60 + 30;
+  let delta = totalMin - anchor;
+  if (delta < 0) delta += 24*60;
+  const period = hh < 12 ? 'AM' : 'PM';
+  const disp = hh % 12 || 12;
+  const label = `${disp}:${String(mm).padStart(2,'0')} ${period}`;
+  return { time_label: label, minutes_since_anchor: delta };
+}
+// Convert minutes_since_anchor -> "HH:MM" 24h
+function to24h(minutes) {
+  const total = (8*60 + 30 + minutes) % (24*60);
+  const hh = Math.floor(total/60), mm = total%60;
+  return `${String(hh).padStart(2,'0')}:${String(mm).padStart(2,'0')}`;
+}
+
+// Apply OVERRIDES on top of STATIONS, returning effective list
+function effectiveStations() {
+  return STATIONS.map(s => {
+    const o = OVERRIDES[stationKey(s)];
+    if (!o) return s;
+    const base = { ...s, _edited: true };
+    // Off-toggle wins
+    if (o.off === true) return { ...base, off: true, schedule: [] };
+    // Determine effective time + duration
+    const orig = s.schedule[0];
+    let time_24h = o.time_24h ?? (orig ? to24h(orig.minutes_since_anchor) : null);
+    let dur = o.duration_min ?? (orig ? orig.duration_min : 30);
+    if (o.off === false) base.off = false;  // turning back on
+    if (time_24h && dur > 0) {
+      const t = from24h(time_24h);
+      base.schedule = [{ time_label: t.time_label, minutes_since_anchor: t.minutes_since_anchor, duration_min: dur, col: -1 }];
+    } else {
+      base.schedule = [];
+    }
+    return base;
+  });
+}
+
+// Build a normalized "summary" of a station for diff display
+function summarize(s) {
+  if (s.off) return 'OFF';
+  if (!s.schedule.length) return 'Unscheduled';
+  const ev = s.schedule[0];
+  return `${ev.time_label}, ${fmtDur(ev.duration_min)}`;
+}
+
+// Compute diffs between baked STATIONS and current OVERRIDES
+function diffEntries() {
+  const eff = effectiveStations();
+  const out = [];
+  for (let i = 0; i < STATIONS.length; i++) {
+    const before = STATIONS[i], after = eff[i];
+    if (!OVERRIDES[stationKey(before)]) continue;
+    const bs = summarize(before), as = summarize(after);
+    if (bs === as) continue;
+    out.push({ station: before, before: bs, after: as });
+  }
+  return out;
+}
+
+// Infer controller group for stations missing valve metadata
+function controllerGroup(s) {
+  if (s.valve) return null;
+  const n = s.name.toLowerCase();
+  if (n.startsWith('garden lawn')) return 'Garden Lawn Controller';
+  if (n.startsWith('island')) return 'Island Controller';
+  if (n.startsWith('top garden')) return 'Top Garden Controller';
+  if (n.startsWith('front garage')) return 'Front Garage Controller';
+  if (n.startsWith('hot tub')) return 'Hot Tub Controller';
+  return 'Unassigned';
+}
+
+function stationKey(s) {
+  // Stable key for localStorage tracking
+  if (s.valve) return `V${s.valve}.${s.program||'?'}.${s.station_num||'?'}.${s.name}`;
+  return `${controllerGroup(s)||'X'}.${s.station_num||'?'}.${s.name}`;
+}
+
+function locatorChip(s) {
+  if (s.valve) return `V${s.valve}·${s.program||'?'}·${s.station_num||'?'}`;
+  if (s.station_num) return `S${s.station_num}`;
+  return '';
+}
+
+function fmtDur(min) {
+  if (min < 60) return `${min} min`;
+  const h = Math.floor(min/60), m = min%60;
+  return m ? `${h}h ${m}m` : `${h}h`;
+}
+
+function nowMinutesSinceAnchor() {
+  // Anchor 8:30 AM same day; values 0..1440
+  const d = new Date();
+  const m = d.getHours()*60 + d.getMinutes();
+  const anchor = 8*60 + 30;
+  let delta = m - anchor;
+  if (delta < 0) delta += 24*60;
+  return delta;
+}
+
+function timeLabelForMinutes(minSinceAnchor) {
+  const total = (8*60 + 30 + minSinceAnchor) % (24*60);
+  const hh = Math.floor(total/60), mm = total%60;
+  const period = hh < 12 ? 'AM' : 'PM';
+  const disp = hh % 12 || 12;
+  return `${disp}:${String(mm).padStart(2,'0')} ${period}`;
+}
+
+function hourBucket(minSinceAnchor) {
+  const total = (8*60 + 30 + minSinceAnchor) % (24*60);
+  return Math.floor(total/60);
+}
+
+function fmtHourBucket(h) {
+  const period = h < 12 ? 'AM' : 'PM';
+  const disp = h % 12 || 12;
+  return `${disp} ${period}`;
+}
+
+// ============ Render ============
+let mode = 'valve';
+let hideOff = false;
+
+function render() {
+  const main = $('#main');
+  main.innerHTML = '';
+
+  const effective = effectiveStations();
+
+  // Update progress pill
+  const totalSchedulable = effective.filter(s => !s.off && s.schedule.length).length;
+  const doneCount = effective.filter(s => !s.off && s.schedule.length && DONE.has(stationKey(s))).length;
+  $('#progressPill').textContent = `${doneCount} / ${totalSchedulable} done`;
+
+  // Update changes badge
+  updateChangesBadge();
+
+  if (mode === 'valve') renderByValve(main, effective);
+  else renderTimeline(main, effective);
+}
+
+function renderByValve(root, effective) {
+  // Group by valve number, then by program. Unassigned = controllerGroup
+  const groups = new Map(); // key -> stations[]
+  for (const s of effective) {
+    if (hideOff && (s.off || s.schedule.length === 0)) continue;
+    const k = s.valve ? `Valve ${s.valve}` : controllerGroup(s);
+    if (!groups.has(k)) groups.set(k, []);
+    groups.get(k).push(s);
+  }
+  // Stable order: Valve 1..N, then Unassigned controllers alphabetically
+  const ordered = [...groups.keys()].sort((a,b) => {
+    const av = a.startsWith('Valve '), bv = b.startsWith('Valve ');
+    if (av && bv) return parseInt(a.slice(6)) - parseInt(b.slice(6));
+    if (av) return -1; if (bv) return 1;
+    return a.localeCompare(b);
+  });
+
+  for (const gk of ordered) {
+    const stations = groups.get(gk);
+    const sec = document.createElement('section');
+    sec.className = 'group';
+    const total = stations.filter(s => !s.off && s.schedule.length).length;
+    const done = stations.filter(s => !s.off && s.schedule.length && DONE.has(stationKey(s))).length;
+    sec.innerHTML = `<div class="group-head"><span>${gk}</span><span class="progress">${done}/${total}</span></div>`;
+
+    // Within valve groups, split by program (A, B, ...). Otherwise just list.
+    if (gk.startsWith('Valve ')) {
+      const byProg = new Map();
+      for (const s of stations) {
+        const p = s.program || '?';
+        if (!byProg.has(p)) byProg.set(p, []);
+        byProg.get(p).push(s);
+      }
+      const progs = [...byProg.keys()].sort();
+      for (const p of progs) {
+        const ph = document.createElement('div');
+        ph.className = 'program-head';
+        ph.textContent = `Program ${p}`;
+        sec.appendChild(ph);
+        const ul = document.createElement('ul');
+        ul.className = 'cards';
+        const sorted = byProg.get(p).slice().sort((a,b) => (a.station_num||999) - (b.station_num||999));
+        for (const s of sorted) ul.appendChild(cardFor(s));
+        sec.appendChild(ul);
+      }
+    } else {
+      const ul = document.createElement('ul');
+      ul.className = 'cards';
+      const sorted = stations.slice().sort((a,b) => (a.station_num||999) - (b.station_num||999) || a.name.localeCompare(b.name));
+      for (const s of sorted) ul.appendChild(cardFor(s));
+      sec.appendChild(ul);
+    }
+
+    root.appendChild(sec);
+  }
+}
+
+function cardFor(s) {
+  const li = document.createElement('li');
+  li.className = 'card';
+  if (s.off) li.classList.add('off');
+  if (s._edited) li.classList.add('edited');
+  const k = stationKey(s);
+  if (DONE.has(k)) li.classList.add('done');
+
+  const sched = s.schedule[0];
+  const right = sched
+    ? `<div class="time">${sched.time_label}</div><div class="dur">${fmtDur(sched.duration_min)}</div>`
+    : (s.off
+        ? `<span class="badge off">OFF</span>`
+        : `<span class="badge unsched">no time</span>`);
+
+  const locator = locatorChip(s);
+  const isNow = sched && Math.abs(sched.minutes_since_anchor - nowMinutesSinceAnchor()) < 30;
+  const nowTag = isNow ? `<span class="now-tag">NOW</span>` : '';
+  const editDot = s._edited ? `<span class="edit-dot" title="Edited"></span>` : '';
+
+  li.innerHTML = `
+    <button class="cb" aria-label="Mark programmed" data-key="${k}">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+    </button>
+    <div class="cardbody" style="flex:1;min-width:0">
+      <div class="name nowrap">${escapeHtml(s.name)}${editDot}${nowTag}</div>
+      <div class="meta">${locator || '—'}</div>
+    </div>
+    <div class="right">${right}</div>
+  `;
+
+  li.querySelector('.cb').addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (DONE.has(k)) DONE.delete(k); else DONE.add(k);
+    saveDone(DONE);
+    render();
+  });
+
+  // Tap anywhere else on the card opens the editor
+  li.addEventListener('click', (e) => {
+    if (e.target.closest('.cb')) return;
+    openEditor(s);
+  });
+
+  return li;
+}
+
+function renderTimeline(root, effective) {
+  const events = [];
+  for (const s of effective) {
+    if (hideOff && (s.off || s.schedule.length === 0)) continue;
+    if (s.off || s.schedule.length === 0) {
+      events.push({ s, ev: null, sortKey: 99999 + (s.off ? 0 : 1) });
+    } else {
+      for (const ev of s.schedule) {
+        events.push({ s, ev, sortKey: ev.minutes_since_anchor });
+      }
+    }
+  }
+  events.sort((a,b) => a.sortKey - b.sortKey);
+
+  const nowMin = nowMinutesSinceAnchor();
+  let lastHour = -999;
+
+  for (const e of events) {
+    if (e.ev) {
+      const h = hourBucket(e.ev.minutes_since_anchor);
+      if (h !== lastHour) {
+        const div = document.createElement('div');
+        div.className = 'tl-hour';
+        // Determine if this is the current hour bucket
+        const nowH = hourBucket(nowMin);
+        if (h === nowH) div.classList.add('now');
+        div.textContent = fmtHourBucket(h);
+        root.appendChild(div);
+        lastHour = h;
+      }
+    } else {
+      // Group OFF + unscheduled under "Not scheduled"
+      if (lastHour !== -1) {
+        const div = document.createElement('div');
+        div.className = 'tl-hour';
+        div.textContent = e.s.off ? 'OFF' : 'Not scheduled';
+        root.appendChild(div);
+        lastHour = -1;
+      }
+    }
+
+    const li = cardFor(e.s);
+    // Override card layout for timeline: prepend time column instead of trailing
+    li.classList.add('tl-card');
+    if (e.ev && Math.abs(e.ev.minutes_since_anchor - nowMin) < 15) li.classList.add('now-event');
+    // Reformat: replace the right cell with locator chip, move time/dur to left
+    const right = li.querySelector('.right');
+    const k = stationKey(e.s);
+    if (e.ev) {
+      const isNow = Math.abs(e.ev.minutes_since_anchor - nowMin) < 30;
+      right.innerHTML = `<div class="dur">${locatorChip(e.s) || '—'}</div>${isNow ? '<div class="now-tag">NOW</div>' : ''}`;
+      // Insert time-col before name body
+      const cb = li.querySelector('.cb');
+      const timeCol = document.createElement('div');
+      timeCol.className = 'time-col';
+      timeCol.innerHTML = `<div class="time">${e.ev.time_label}</div><div class="dur">${fmtDur(e.ev.duration_min)}</div>`;
+      cb.after(timeCol);
+    }
+    root.appendChild(li);
+  }
+
+  if (!events.length) {
+    const div = document.createElement('div');
+    div.className = 'empty';
+    div.textContent = 'No events to show.';
+    root.appendChild(div);
+  }
+}
+
+function escapeHtml(s) {
+  return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+// ============ Wire up ============
+$('#tabValve').addEventListener('click', () => { mode='valve'; updateTabs(); render(); });
+$('#tabTime').addEventListener('click', () => { mode='time'; updateTabs(); render(); });
+function updateTabs() {
+  $('#tabValve').classList.toggle('active', mode==='valve');
+  $('#tabTime').classList.toggle('active', mode==='time');
+}
+
+$('#resetBtn').addEventListener('click', () => {
+  if (!confirm('Reset all checked stations for today?')) return;
+  DONE = new Set();
+  saveDone(DONE);
+  render();
+});
+$('#hideOffBtn').addEventListener('click', (e) => {
+  hideOff = !hideOff;
+  e.target.textContent = hideOff ? 'Show all' : 'Hide OFF/unscheduled';
+  render();
+});
+
+// ============ Edit bottom-sheet ============
+let EDITING_STATION = null; // baked station object (not effective)
+
+function openEditor(s) {
+  // Find the corresponding baked station object via stationKey match
+  const baked = STATIONS.find(b => stationKey(b) === stationKey(s)) || s;
+  EDITING_STATION = baked;
+  const eff = effectiveStations().find(e => stationKey(e) === stationKey(baked));
+
+  $('#editTitle').textContent = baked.name;
+  const loc = locatorChip(baked);
+  $('#editMeta').textContent = loc ? loc : 'No valve metadata';
+
+  // Prefill from effective state
+  const sched = eff?.schedule[0];
+  if (sched) {
+    $('#editTime').value = to24h(sched.minutes_since_anchor);
+    $('#editDur').value = sched.duration_min;
+  } else if (baked.schedule[0]) {
+    // fall back to original
+    $('#editTime').value = to24h(baked.schedule[0].minutes_since_anchor);
+    $('#editDur').value = baked.schedule[0].duration_min;
+  } else {
+    $('#editTime').value = '20:00';
+    $('#editDur').value = 30;
+  }
+  $('#editOff').checked = !!eff?.off;
+  $('#editBackdrop').classList.add('open');
+}
+function closeEditor() {
+  EDITING_STATION = null;
+  $('#editBackdrop').classList.remove('open');
+}
+
+$('#editCancel').addEventListener('click', closeEditor);
+$('#editBackdrop').addEventListener('click', (e) => {
+  if (e.target.id === 'editBackdrop') closeEditor();
+});
+$('#durMinus').addEventListener('click', () => {
+  const el = $('#editDur'); el.value = Math.max(0, (parseInt(el.value)||0) - 5);
+});
+$('#durPlus').addEventListener('click', () => {
+  const el = $('#editDur'); el.value = Math.min(240, (parseInt(el.value)||0) + 5);
+});
+$('#editReset').addEventListener('click', () => {
+  if (!EDITING_STATION) return;
+  const k = stationKey(EDITING_STATION);
+  delete OVERRIDES[k];
+  saveOverrides(OVERRIDES);
+  closeEditor();
+  render();
+  toast('Reset to original');
+});
+$('#editSave').addEventListener('click', () => {
+  if (!EDITING_STATION) return;
+  const k = stationKey(EDITING_STATION);
+  const time = $('#editTime').value;
+  const dur = parseInt($('#editDur').value) || 0;
+  const off = $('#editOff').checked;
+
+  // Build override; only include fields that differ from original
+  const orig = EDITING_STATION.schedule[0];
+  const override = { modified_at: new Date().toISOString() };
+  if (off) {
+    override.off = true;
+  } else {
+    if (EDITING_STATION.off) override.off = false; // turning back on
+    if (time && (!orig || time !== to24h(orig.minutes_since_anchor))) override.time_24h = time;
+    if (dur > 0 && (!orig || dur !== orig.duration_min)) override.duration_min = dur;
+    if (orig && dur === 0) override.duration_min = 0; // explicit zero
+  }
+
+  // If override has no real changes (just modified_at), drop it
+  const meaningfulKeys = Object.keys(override).filter(k => k !== 'modified_at');
+  if (meaningfulKeys.length === 0) {
+    delete OVERRIDES[k];
+  } else {
+    OVERRIDES[k] = override;
+  }
+  saveOverrides(OVERRIDES);
+  closeEditor();
+  render();
+  toast('Saved');
+});
+
+// ============ Changelog modal ============
+function openChanges() {
+  const list = $('#changelogList');
+  list.innerHTML = '';
+  const entries = diffEntries();
+  if (!entries.length) {
+    list.innerHTML = '<li class="meta-row" style="text-align:center;color:var(--muted)">No changes yet.</li>';
+  } else {
+    for (const e of entries) {
+      const li = document.createElement('li');
+      const loc = locatorChip(e.station);
+      li.innerHTML = `
+        <div class="name">${escapeHtml(e.station.name)}${loc ? ` <span class="meta-row" style="font-weight:400">· ${loc}</span>` : ''}</div>
+        <div class="change">${escapeHtml(e.before)}<span class="arrow">→</span>${escapeHtml(e.after)}</div>
+      `;
+      list.appendChild(li);
+    }
+  }
+  $('#changesBackdrop').classList.add('open');
+}
+function closeChanges() { $('#changesBackdrop').classList.remove('open'); }
+
+$('#changesBtn').addEventListener('click', openChanges);
+$('#changesClose').addEventListener('click', closeChanges);
+$('#changesBackdrop').addEventListener('click', (e) => {
+  if (e.target.id === 'changesBackdrop') closeChanges();
+});
+$('#changesCopy').addEventListener('click', async () => {
+  const entries = diffEntries();
+  if (!entries.length) { toast('Nothing to copy'); return; }
+  const text = entries.map(e => {
+    const loc = locatorChip(e.station);
+    return `${e.station.name}${loc ? ` (${loc})` : ''}: ${e.before} → ${e.after}`;
+  }).join('\n');
+  try {
+    await navigator.clipboard.writeText(text);
+    toast('Copied to clipboard');
+  } catch {
+    // Fallback for non-HTTPS contexts
+    const ta = document.createElement('textarea');
+    ta.value = text; document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); toast('Copied'); } catch { toast('Copy failed'); }
+    ta.remove();
+  }
+});
+$('#changesMarkSynced').addEventListener('click', () => {
+  if (!Object.keys(OVERRIDES).length) { closeChanges(); return; }
+  if (!confirm('Mark all changes synced? This clears your local edits.')) return;
+  OVERRIDES = {};
+  saveOverrides(OVERRIDES);
+  closeChanges();
+  render();
+  toast('Synced — local edits cleared');
+});
+
+function updateChangesBadge() {
+  const n = diffEntries().length;
+  const btn = $('#changesBtn');
+  btn.innerHTML = n > 0 ? `Changes <span class="badge-count">${n}</span>` : 'Changes';
+}
+
+// Toast
+let toastTimer = null;
+function toast(msg) {
+  const t = $('#toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 1800);
+}
+
+// Date / clock
+function updateClock() {
+  const d = new Date();
+  $('#dateLabel').textContent = d.toLocaleDateString(undefined, { weekday:'short', month:'short', day:'numeric' });
+  $('#clockLabel').textContent = d.toLocaleTimeString(undefined, { hour:'numeric', minute:'2-digit' });
+}
+updateClock(); setInterval(updateClock, 30000);
+
+// Re-render every 5 min so "NOW" indicator stays fresh
+setInterval(render, 5*60*1000);
+
+// Reset DONE store at local midnight automatically (re-load if key changed)
+setInterval(() => {
+  const fresh = loadDone();
+  if (fresh.size !== DONE.size) { DONE = fresh; render(); }
+}, 60*1000);
+
+$('#lastUpdated').textContent = `Schedule generated ${GENERATED_AT}`;
+
+render();
+
+// Service worker (only registers if hosted; harmless on file://)
+if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+  navigator.serviceWorker.register('sw.js').catch(()=>{});
+}
+</script>
+</body>
+</html>
