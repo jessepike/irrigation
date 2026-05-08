@@ -1,0 +1,56 @@
+{
+  "_comment": "Stub for the 3 Rainbird TBOS controllers. Fill in real data when you next walk the controllers, or as you phase them out replace this with empty list.",
+  "controllers": [
+    {
+      "id": "rainbird-tbos-1",
+      "name": "Rainbird TBOS #1",
+      "type": "rainbird",
+      "notes": "Placeholder — replace with real schedule",
+      "programs": [
+        {
+          "id": "rainbird-tbos-1__a",
+          "name": "Program A",
+          "calendar": "Custom",
+          "days": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+          "water_budget": 100,
+          "start_times": [],
+          "stations": []
+        }
+      ]
+    },
+    {
+      "id": "rainbird-tbos-2",
+      "name": "Rainbird TBOS #2",
+      "type": "rainbird",
+      "notes": "Placeholder",
+      "programs": [
+        {
+          "id": "rainbird-tbos-2__a",
+          "name": "Program A",
+          "calendar": "Custom",
+          "days": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+          "water_budget": 100,
+          "start_times": [],
+          "stations": []
+        }
+      ]
+    },
+    {
+      "id": "rainbird-tbos-3",
+      "name": "Rainbird TBOS #3",
+      "type": "rainbird",
+      "notes": "Placeholder",
+      "programs": [
+        {
+          "id": "rainbird-tbos-3__a",
+          "name": "Program A",
+          "calendar": "Custom",
+          "days": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+          "water_budget": 100,
+          "start_times": [],
+          "stations": []
+        }
+      ]
+    }
+  ]
+}

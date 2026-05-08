@@ -1,0 +1,252 @@
+{
+  "generated_at": "2026-05-08T20:56:22",
+  "source": "K-Rain dashboard via Gemini agent (irrigation_schedule_2026-05-08.csv)",
+  "controllers": [
+    {
+      "id": "front-lawn-4",
+      "name": "Front-Lawn-4",
+      "type": "krain",
+      "programs": [
+        {
+          "id": "front-lawn-4__rotors",
+          "name": "Rotors",
+          "calendar": "Custom",
+          "days": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+          ],
+          "water_budget": 100,
+          "start_times": [
+            "02:00",
+            "14:45"
+          ],
+          "stations": [
+            {
+              "number": 1,
+              "name": "Station 1",
+              "duration_min": 20
+            },
+            {
+              "number": 2,
+              "name": "Station 2",
+              "duration_min": 20
+            },
+            {
+              "number": 3,
+              "name": "Station 3",
+              "duration_min": 20
+            },
+            {
+              "number": 4,
+              "name": "Station 4",
+              "duration_min": 20
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "garden-lawn-3",
+      "name": "Garden Lawn 3",
+      "type": "krain",
+      "programs": [
+        {
+          "id": "garden-lawn-3__rotors",
+          "name": "Rotors",
+          "calendar": "Custom",
+          "days": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+          ],
+          "water_budget": 100,
+          "start_times": [
+            "09:15",
+            "17:00"
+          ],
+          "stations": [
+            {
+              "number": 1,
+              "name": "Rotors",
+              "duration_min": 20
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "garden-lawn-1",
+      "name": "Garden lawn 1",
+      "type": "krain",
+      "programs": [
+        {
+          "id": "garden-lawn-1__rotors",
+          "name": "Rotors",
+          "calendar": "Custom",
+          "days": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+          ],
+          "water_budget": 100,
+          "start_times": [
+            "04:45",
+            "18:45"
+          ],
+          "stations": [
+            {
+              "number": 1,
+              "name": "Station 1",
+              "duration_min": 15
+            },
+            {
+              "number": 2,
+              "name": "Station 2",
+              "duration_min": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "garden-lawn-2",
+      "name": "Garden-Lawn-2",
+      "type": "krain",
+      "programs": [
+        {
+          "id": "garden-lawn-2__rotors",
+          "name": "Rotors",
+          "calendar": "Custom",
+          "days": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+          ],
+          "water_budget": 100,
+          "start_times": [
+            "09:45",
+            "16:30"
+          ],
+          "stations": [
+            {
+              "number": 1,
+              "name": "Station 1",
+              "duration_min": 20
+            },
+            {
+              "number": 2,
+              "name": "Station 2",
+              "duration_min": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "island",
+      "name": "Island",
+      "type": "krain",
+      "programs": [
+        {
+          "id": "island__lower-sprays",
+          "name": "Lower Sprays",
+          "calendar": "Custom",
+          "days": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+          ],
+          "water_budget": 100,
+          "start_times": [
+            "05:00",
+            "18:05"
+          ],
+          "stations": [
+            {
+              "number": 1,
+              "name": "Station 1",
+              "duration_min": 0
+            },
+            {
+              "number": 2,
+              "name": "Station 2",
+              "duration_min": 5
+            },
+            {
+              "number": 3,
+              "name": "Station 3",
+              "duration_min": 0
+            },
+            {
+              "number": 4,
+              "name": "Station 4",
+              "duration_min": 0
+            }
+          ]
+        },
+        {
+          "id": "island__upper-sprays",
+          "name": "Upper Sprays",
+          "calendar": "Custom",
+          "days": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+          ],
+          "water_budget": 100,
+          "start_times": [
+            "05:10",
+            "18:00"
+          ],
+          "stations": [
+            {
+              "number": 1,
+              "name": "Station 1",
+              "duration_min": 5
+            },
+            {
+              "number": 2,
+              "name": "Station 2",
+              "duration_min": 0
+            },
+            {
+              "number": 3,
+              "name": "Station 3",
+              "duration_min": 0
+            },
+            {
+              "number": 4,
+              "name": "Station 4",
+              "duration_min": 0
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

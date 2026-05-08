@@ -1,0 +1,35 @@
+module,program,calendar,days,water_budget,start_time,station_number,station_name,duration_hours,duration_minutes,duration_total_mins
+Front-Lawn-4,Rotors,Custom,Monday; Tuesday; Wednesday; Thursday; Friday; Saturday; Sunday,100%,02:00,1,Station 1,0,20,20
+Front-Lawn-4,Rotors,Custom,Monday; Tuesday; Wednesday; Thursday; Friday; Saturday; Sunday,100%,02:00,2,Station 2,0,20,20
+Front-Lawn-4,Rotors,Custom,Monday; Tuesday; Wednesday; Thursday; Friday; Saturday; Sunday,100%,02:00,3,Station 3,0,20,20
+Front-Lawn-4,Rotors,Custom,Monday; Tuesday; Wednesday; Thursday; Friday; Saturday; Sunday,100%,02:00,4,Station 4,0,20,20
+Front-Lawn-4,Rotors,Custom,Monday; Tuesday; Wednesday; Thursday; Friday; Saturday; Sunday,100%,14:45,1,Station 1,0,20,20
+Front-Lawn-4,Rotors,Custom,Monday; Tuesday; Wednesday; Thursday; Friday; Saturday; Sunday,100%,14:45,2,Station 2,0,20,20
+Front-Lawn-4,Rotors,Custom,Monday; Tuesday; Wednesday; Thursday; Friday; Saturday; Sunday,100%,14:45,3,Station 3,0,20,20
+Front-Lawn-4,Rotors,Custom,Monday; Tuesday; Wednesday; Thursday; Friday; Saturday; Sunday,100%,14:45,4,Station 4,0,20,20
+Garden Lawn 3,Rotors,Custom,Monday; Tuesday; Wednesday; Thursday; Friday; Saturday; Sunday,100%,09:15,1,Rotors,0,20,20
+Garden Lawn 3,Rotors,Custom,Monday; Tuesday; Wednesday; Thursday; Friday; Saturday; Sunday,100%,17:00,1,Rotors,0,20,20
+Garden lawn 1,Rotors,Custom,Monday; Tuesday; Wednesday; Thursday; Friday; Saturday; Sunday,100%,04:45,1,Station 1,0,15,15
+Garden lawn 1,Rotors,Custom,Monday; Tuesday; Wednesday; Thursday; Friday; Saturday; Sunday,100%,04:45,2,Station 2,0,0,0
+Garden lawn 1,Rotors,Custom,Monday; Tuesday; Wednesday; Thursday; Friday; Saturday; Sunday,100%,18:45,1,Station 1,0,15,15
+Garden lawn 1,Rotors,Custom,Monday; Tuesday; Wednesday; Thursday; Friday; Saturday; Sunday,100%,18:45,2,Station 2,0,0,0
+Garden-Lawn-2,Rotors,Custom,Monday; Tuesday; Wednesday; Thursday; Friday; Saturday; Sunday,100%,09:45,1,Station 1,0,20,20
+Garden-Lawn-2,Rotors,Custom,Monday; Tuesday; Wednesday; Thursday; Friday; Saturday; Sunday,100%,09:45,2,Station 2,0,0,0
+Garden-Lawn-2,Rotors,Custom,Monday; Tuesday; Wednesday; Thursday; Friday; Saturday; Sunday,100%,16:30,1,Station 1,0,20,20
+Garden-Lawn-2,Rotors,Custom,Monday; Tuesday; Wednesday; Thursday; Friday; Saturday; Sunday,100%,16:30,2,Station 2,0,0,0
+Island,Upper Sprays,Custom,Monday; Tuesday; Wednesday; Thursday; Friday; Saturday; Sunday,100%,05:10,1,Station 1,0,5,5
+Island,Upper Sprays,Custom,Monday; Tuesday; Wednesday; Thursday; Friday; Saturday; Sunday,100%,05:10,2,Station 2,0,0,0
+Island,Upper Sprays,Custom,Monday; Tuesday; Wednesday; Thursday; Friday; Saturday; Sunday,100%,05:10,3,Station 3,0,0,0
+Island,Upper Sprays,Custom,Monday; Tuesday; Wednesday; Thursday; Friday; Saturday; Sunday,100%,05:10,4,Station 4,0,0,0
+Island,Upper Sprays,Custom,Monday; Tuesday; Wednesday; Thursday; Friday; Saturday; Sunday,100%,18:00,1,Station 1,0,5,5
+Island,Upper Sprays,Custom,Monday; Tuesday; Wednesday; Thursday; Friday; Saturday; Sunday,100%,18:00,2,Station 2,0,0,0
+Island,Upper Sprays,Custom,Monday; Tuesday; Wednesday; Thursday; Friday; Saturday; Sunday,100%,18:00,3,Station 3,0,0,0
+Island,Upper Sprays,Custom,Monday; Tuesday; Wednesday; Thursday; Friday; Saturday; Sunday,100%,18:00,4,Station 4,0,0,0
+Island,Lower Sprays,Custom,Monday; Tuesday; Wednesday; Thursday; Friday; Saturday; Sunday,100%,05:00,1,Station 1,0,0,0
+Island,Lower Sprays,Custom,Monday; Tuesday; Wednesday; Thursday; Friday; Saturday; Sunday,100%,05:00,2,Station 2,0,5,5
+Island,Lower Sprays,Custom,Monday; Tuesday; Wednesday; Thursday; Friday; Saturday; Sunday,100%,05:00,3,Station 3,0,0,0
+Island,Lower Sprays,Custom,Monday; Tuesday; Wednesday; Thursday; Friday; Saturday; Sunday,100%,05:00,4,Station 4,0,0,0
+Island,Lower Sprays,Custom,Monday; Tuesday; Wednesday; Thursday; Friday; Saturday; Sunday,100%,18:05,1,Station 1,0,0,0
+Island,Lower Sprays,Custom,Monday; Tuesday; Wednesday; Thursday; Friday; Saturday; Sunday,100%,18:05,2,Station 2,0,5,5
+Island,Lower Sprays,Custom,Monday; Tuesday; Wednesday; Thursday; Friday; Saturday; Sunday,100%,18:05,3,Station 3,0,0,0
+Island,Lower Sprays,Custom,Monday; Tuesday; Wednesday; Thursday; Friday; Saturday; Sunday,100%,18:05,4,Station 4,0,0,0

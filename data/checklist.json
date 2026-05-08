@@ -1,0 +1,42 @@
+{
+  "_comment": "Seasonal checklist. scope=global (one item), controller (one per controller), zone (one per zone within controller). State persists per (year, season).",
+  "seasons": {
+    "spring": {
+      "label": "Spring",
+      "icon": "🌱",
+      "items": [
+        { "id": "spring-main-on",       "scope": "global",     "text": "Turn on main irrigation" },
+        { "id": "spring-batteries",     "scope": "controller", "text": "Replace battery" },
+        { "id": "spring-test-zones",    "scope": "zone",       "text": "Test sprinkler" },
+        { "id": "spring-validate-sched","scope": "controller", "text": "Validate schedule" },
+        { "id": "spring-budget-review", "scope": "global",     "text": "Review water budget % (often left at 50% from fall)" }
+      ]
+    },
+    "summer": {
+      "label": "Summer",
+      "icon": "☀️",
+      "items": [
+        { "id": "summer-budget-100",    "scope": "controller", "text": "Set water budget to 100%" },
+        { "id": "summer-walk",          "scope": "global",     "text": "Walk yard, note dry spots / overspray" }
+      ]
+    },
+    "fall": {
+      "label": "Fall",
+      "icon": "🍂",
+      "items": [
+        { "id": "fall-budget-50",       "scope": "controller", "text": "Set water budget down (typically 50%)" },
+        { "id": "fall-leaf-check",      "scope": "global",     "text": "Check sprinkler heads aren't blocked by leaves/debris" }
+      ]
+    },
+    "winter": {
+      "label": "Winter",
+      "icon": "❄️",
+      "items": [
+        { "id": "winter-main-off",      "scope": "global",     "text": "Turn off main irrigation" },
+        { "id": "winter-drain",         "scope": "global",     "text": "Drain system" },
+        { "id": "winter-batteries-out", "scope": "controller", "text": "Remove / unplug battery" },
+        { "id": "winter-insulation",    "scope": "controller", "text": "Pack valve box with insulation" }
+      ]
+    }
+  }
+}
