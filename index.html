@@ -128,19 +128,42 @@
 
   /* Gantt view */
   .gantt-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 8px; }
-  .gantt {
-    display: grid; gap: 4px; min-width: 1200px;
-    grid-template-columns: 130px 1fr;
+  .gantt { min-width: 980px; display: flex; flex-direction: column; gap: 4px; }
+  .gantt-axis-row {
+    display: grid; grid-template-columns: 130px 1fr; gap: 6px;
+    margin-bottom: 2px;
   }
-  .gantt-row { display: contents; }
-  .gantt-row .label {
-    font-size: 12px; font-weight: 600; padding: 8px 10px; align-self: center;
+  .gantt-axis-spacer { /* aligns with label column */ }
+  .gantt-axis-hours {
+    display: grid; grid-template-columns: repeat(24, 1fr);
+    font-size: 10px; color: var(--muted);
+    padding-bottom: 4px; border-bottom: 1px dashed var(--line);
+  }
+  .gantt-axis-hours span {
+    padding: 2px 4px; border-left: 1px solid var(--line);
+    text-align: left;
+  }
+  .gantt-axis-hours span:first-child { border-left: 0; }
+  .gantt-row {
+    display: grid; grid-template-columns: 130px 1fr; gap: 6px;
+    align-items: stretch;
+  }
+  .gantt-label {
     background: var(--panel); border: 1px solid var(--line); border-radius: 8px;
+    padding: 8px 10px; font-size: 12px; font-weight: 600;
+    display: flex; align-items: center;
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   }
-  .gantt-row .lane {
+  .gantt-track {
     position: relative; height: 36px;
     background: var(--panel-2); border: 1px solid var(--line); border-radius: 8px;
+    background-image: repeating-linear-gradient(
+      to right,
+      transparent 0,
+      transparent calc(100%/24 - 1px),
+      var(--line) calc(100%/24 - 1px),
+      var(--line) calc(100%/24)
+    );
   }
   .gantt-block {
     position: absolute; top: 3px; bottom: 3px;
@@ -148,16 +171,11 @@
     color: var(--bg); font-size: 10px; font-weight: 700;
     padding: 2px 4px; overflow: hidden; white-space: nowrap;
     display: flex; align-items: center;
+    box-sizing: border-box;
+    min-width: 4px;
   }
   .gantt-block.conflict { background: var(--danger); color: white; }
   .gantt-block.warn { background: var(--warn); color: var(--bg); }
-  .gantt-axis {
-    grid-column: 2; display: grid; grid-template-columns: repeat(24, 1fr);
-    font-size: 10px; color: var(--muted); border-bottom: 1px dashed var(--line);
-    margin-bottom: 4px;
-  }
-  .gantt-axis span { padding: 2px 4px; border-left: 1px solid var(--line); }
-  .gantt-axis span:first-child { border-left: 0; }
   .view-toggle {
     display: inline-flex; background: var(--panel-2); border: 1px solid var(--line);
     border-radius: 10px; padding: 2px; margin: 8px 0;
@@ -492,13 +510,15 @@ function renderEventList(root, events, conflictedIds) {
 }
 
 function renderGantt(root, events, conflictedIds) {
-  // Get unique controller list, in order of first appearance in events
+  // Order: controllers with events first (event order), then any zero-event controllers
   const controllerOrder = [];
   const seen = new Set();
   for (const e of events) {
-    if (!seen.has(e.controller_id)) { seen.add(e.controller_id); controllerOrder.push({id: e.controller_id, name: e.controller}); }
+    if (!seen.has(e.controller_id)) {
+      seen.add(e.controller_id);
+      controllerOrder.push({id: e.controller_id, name: e.controller});
+    }
   }
-  // Also include any zero-event controllers (e.g., Rainbird stubs)
   for (const c of CONTROLLERS) {
     if (!seen.has(c.id)) controllerOrder.push({id: c.id, name: c.name});
   }
@@ -512,33 +532,31 @@ function renderGantt(root, events, conflictedIds) {
   const grid = document.createElement('div');
   grid.className = 'gantt';
 
-  // Axis (24 hours)
-  const axisLabel = document.createElement('div');
-  axisLabel.className = 'label';
-  axisLabel.style.background = 'transparent';
-  axisLabel.style.border = '0';
-  axisLabel.textContent = '';
-  grid.appendChild(axisLabel);
-  const axis = document.createElement('div');
-  axis.className = 'gantt-axis';
+  // Axis row
+  const axisRow = document.createElement('div');
+  axisRow.className = 'gantt-axis-row';
+  axisRow.innerHTML = `<div class="gantt-axis-spacer"></div><div class="gantt-axis-hours"></div>`;
+  const axisHours = axisRow.querySelector('.gantt-axis-hours');
   for (let h = 0; h < 24; h++) {
     const span = document.createElement('span');
-    const period = h < 12 ? 'a' : 'p';
-    span.textContent = `${h%12||12}${period}`;
-    axis.appendChild(span);
+    span.textContent = `${h%12||12}${h<12?'a':'p'}`;
+    axisHours.appendChild(span);
   }
-  grid.appendChild(axis);
+  grid.appendChild(axisRow);
 
-  // One row per controller
+  // Rows
   for (const c of controllerOrder) {
-    const label = document.createElement('div');
-    label.className = 'label';
-    label.textContent = c.name;
-    grid.appendChild(label);
+    const row = document.createElement('div');
+    row.className = 'gantt-row';
 
-    const lane = document.createElement('div');
-    lane.className = 'lane';
-    const lanePixelWidth = 1200 - 130; // approx, but we use % so doesn't matter
+    const label = document.createElement('div');
+    label.className = 'gantt-label';
+    label.textContent = c.name;
+    label.title = c.name;
+    row.appendChild(label);
+
+    const track = document.createElement('div');
+    track.className = 'gantt-track';
     const ctlEvents = events.filter(e => e.controller_id === c.id);
     for (const e of ctlEvents) {
       const block = document.createElement('div');
@@ -551,11 +569,12 @@ function renderGantt(root, events, conflictedIds) {
       const widthPct = ((e.end - e.start) / 1440) * 100;
       block.style.left = `${startPct}%`;
       block.style.width = `${widthPct}%`;
-      block.title = `${e.controller} / ${e.program} S${e.zone_num} (${fmtTime12(e.start)}–${fmtTime12(e.end)}, ${fmtDur(e.budgeted_min)})`;
-      block.textContent = `S${e.zone_num} ${fmtDur(e.budgeted_min)}`;
-      lane.appendChild(block);
+      block.title = `${e.controller} / ${e.program} S${e.zone_num} ${fmtTime12(e.start)}–${fmtTime12(e.end)} (${fmtDur(e.budgeted_min)})`;
+      block.textContent = `S${e.zone_num}`;
+      track.appendChild(block);
     }
-    grid.appendChild(lane);
+    row.appendChild(track);
+    grid.appendChild(row);
   }
 
   wrap.appendChild(grid);
@@ -681,14 +700,23 @@ function loadChecklistState() {
 function saveChecklistState(state) { localStorage.setItem(checklistKey(), JSON.stringify(state)); }
 
 function expandChecklistItems(season) {
-  // Expand each item by scope: global (1), controller (1 per ctl), zone (1 per zone)
+  // Expand each item by scope. Each expanded item carries controller_id (or null for global)
+  // and a per-row label (zone-scoped items get "Program · S2", controller-scoped get just the item text).
   const expanded = [];
   for (const item of (CHECKLIST?.seasons?.[season]?.items || [])) {
     if (item.scope === 'global') {
-      expanded.push({ ...item, key: `${item.id}|global`, scopeRef: null, scopeLabel: '' });
+      expanded.push({
+        ...item, key: `${item.id}|global`,
+        controller_id: null, controller_name: null,
+        rowLabel: item.text, sublabel: null,
+      });
     } else if (item.scope === 'controller') {
       for (const c of CONTROLLERS) {
-        expanded.push({ ...item, key: `${item.id}|${c.id}`, scopeRef: c.id, scopeLabel: c.name });
+        expanded.push({
+          ...item, key: `${item.id}|${c.id}`,
+          controller_id: c.id, controller_name: c.name,
+          rowLabel: item.text, sublabel: null,
+        });
       }
     } else if (item.scope === 'zone') {
       for (const c of CONTROLLERS) {
@@ -696,7 +724,12 @@ function expandChecklistItems(season) {
           for (const s of (p.stations || [])) {
             if (s.duration_min === 0) continue;
             const ref = `${c.id}|${p.id}|${s.number}`;
-            expanded.push({ ...item, key: `${item.id}|${ref}`, scopeRef: ref, scopeLabel: `${c.name} · ${p.name} · S${s.number}` });
+            expanded.push({
+              ...item, key: `${item.id}|${ref}`,
+              controller_id: c.id, controller_name: c.name,
+              rowLabel: item.text,
+              sublabel: `${p.name} · S${s.number} ${s.name}`,
+            });
           }
         }
       }
@@ -736,39 +769,66 @@ function renderChecklist() {
   prog.textContent = `${done} / ${items.length} done · ${CHECKLIST.seasons[CURRENT_SEASON].label} ${CHECKLIST_YEAR}`;
   root.appendChild(prog);
 
-  // Group by base item id (so all "Replace battery" items cluster together)
-  const groups = new Map();
+  // Group by controller (with a "Global" pseudo-group at the top for global items).
+  // Within each controller group: controller-scoped items first, then zone-scoped.
+  const globalItems = items.filter(i => i.controller_id === null);
+  const byCtl = new Map();
   for (const it of items) {
-    if (!groups.has(it.id)) groups.set(it.id, []);
-    groups.get(it.id).push(it);
+    if (it.controller_id === null) continue;
+    if (!byCtl.has(it.controller_id)) byCtl.set(it.controller_id, { name: it.controller_name, items: [] });
+    byCtl.get(it.controller_id).items.push(it);
+  }
+  // Sort each controller's items: scope=controller first, then zone, preserving original order otherwise
+  for (const v of byCtl.values()) {
+    v.items.sort((a, b) => {
+      const ord = { 'controller': 0, 'zone': 1, 'global': 2 };
+      return (ord[a.scope] ?? 99) - (ord[b.scope] ?? 99);
+    });
   }
 
-  for (const [, group] of groups) {
+  function renderItemRow(it) {
+    const row = document.createElement('div');
+    row.className = 'check-item' + (state[it.key] ? ' done' : '');
+    row.innerHTML = `
+      <div class="cb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div style="flex:1;min-width:0">
+        <div class="text">${escapeHtml(it.rowLabel)}</div>
+        ${it.sublabel ? `<div class="scope-tag">${escapeHtml(it.sublabel)}</div>` : ''}
+      </div>
+    `;
+    row.addEventListener('click', () => {
+      state = loadChecklistState();
+      if (state[it.key]) delete state[it.key]; else state[it.key] = true;
+      saveChecklistState(state);
+      renderChecklist();
+    });
+    return row;
+  }
+
+  // Global section
+  if (globalItems.length) {
     const g = document.createElement('div');
     g.className = 'check-group';
     const head = document.createElement('div');
     head.className = 'group-name';
-    head.textContent = group[0].text;
+    head.textContent = 'Global';
     g.appendChild(head);
+    for (const it of globalItems) g.appendChild(renderItemRow(it));
+    root.appendChild(g);
+  }
 
-    for (const it of group) {
-      const row = document.createElement('div');
-      row.className = 'check-item' + (state[it.key] ? ' done' : '');
-      row.innerHTML = `
-        <div class="cb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-        <div style="flex:1">
-          <div class="text">${escapeHtml(it.scopeLabel || it.text)}</div>
-          ${it.scopeLabel ? `<div class="scope-tag">${it.scope}</div>` : ''}
-        </div>
-      `;
-      row.addEventListener('click', () => {
-        state = loadChecklistState();
-        if (state[it.key]) delete state[it.key]; else state[it.key] = true;
-        saveChecklistState(state);
-        renderChecklist();
-      });
-      g.appendChild(row);
-    }
+  // Per-controller sections, in CONTROLLERS order
+  for (const c of CONTROLLERS) {
+    const grp = byCtl.get(c.id);
+    if (!grp || !grp.items.length) continue;
+    const g = document.createElement('div');
+    g.className = 'check-group';
+    const doneHere = grp.items.filter(i => state[i.key]).length;
+    const head = document.createElement('div');
+    head.className = 'group-name';
+    head.innerHTML = `${escapeHtml(c.name)} <span class="subtle" style="font-weight:400">${doneHere}/${grp.items.length}</span>`;
+    g.appendChild(head);
+    for (const it of grp.items) g.appendChild(renderItemRow(it));
     root.appendChild(g);
   }
 

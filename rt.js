@@ -6,7 +6,7 @@ vc.on('jsdomError', e => errors.push(e));
 vc.on('error', e => errors.push(e));
 
 (async () => {
-  const dom = await JSDOM.fromURL('http://localhost:8766/', {
+  const dom = await JSDOM.fromURL('http://localhost:8771/', {
     runScripts: 'dangerously',
     pretendToBeVisual: true,
     virtualConsole: vc,
