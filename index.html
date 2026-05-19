@@ -39,7 +39,7 @@
     font: 16px/1.45 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, system-ui, sans-serif;
     padding: env(safe-area-inset-top) env(safe-area-inset-right) 0 env(safe-area-inset-left);
     min-height: 100dvh;
-    padding-bottom: 76px; /* room for bottom nav */
+    padding-bottom: 84px;
   }
   header.app {
     position: sticky; top: 0; z-index: 10;
@@ -48,860 +48,1015 @@
   }
   header.app .row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
   h1 { font-size: 16px; margin: 0; letter-spacing: .2px; }
-  .subtle { color: var(--muted); font-size: 12px; }
-  .pill { font-size: 11px; color: var(--muted); padding: 2px 8px; border: 1px solid var(--line); border-radius: 999px; }
-  .pill.warn { color: var(--warn); border-color: var(--warn); }
-  .pill.danger { color: var(--danger); border-color: var(--danger); }
-  main { padding: 14px; max-width: 720px; margin: 0 auto; }
+  h2 { font-size: 18px; margin: 16px 14px 8px; }
+  h3 { font-size: 15px; margin: 14px 0 6px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .5px; }
+  .muted { color: var(--muted); }
+  .small { font-size: 12.5px; }
+  .pill { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 12px; font-weight: 600; background: var(--panel-2); color: var(--muted); }
+  .pill.danger { background: var(--danger-bg); color: var(--danger); }
+  .pill.warn { background: var(--warn-bg); color: var(--warn); }
+  .pill.ok { background: rgba(74,222,128,.15); color: var(--accent); }
+  .back-btn {
+    background: none; border: 0; color: var(--accent); font-size: 15px; padding: 4px 8px 4px 0; cursor: pointer;
+  }
+  .btn {
+    background: var(--accent); color: #06120c; border: 0; padding: 10px 16px; border-radius: 10px;
+    font-weight: 700; font-size: 15px; cursor: pointer;
+  }
+  .btn.ghost { background: var(--panel-2); color: var(--text); }
+  .btn.danger { background: var(--danger); color: #fff; }
+  .btn:disabled { opacity: .5; cursor: not-allowed; }
+  main { padding: 0 0 16px; }
+  .container { padding: 0 14px; }
+  .card {
+    background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
+    padding: 12px 14px; margin: 0 14px 10px; box-shadow: var(--shadow);
+  }
+  .row-link {
+    display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    padding: 14px; background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
+    margin: 0 14px 8px; box-shadow: var(--shadow); cursor: pointer; color: inherit; text-decoration: none;
+  }
+  .row-link:active { transform: scale(.99); }
+  .row-link .right { color: var(--muted); font-size: 18px; }
+  .row-link .title { font-weight: 600; }
+  .row-link .sub { color: var(--muted); font-size: 13px; margin-top: 2px; }
+  .badges { display: flex; gap: 6px; flex-wrap: wrap; }
 
   /* Bottom nav */
-  nav.bottomnav {
+  nav.bottom {
     position: fixed; left: 0; right: 0; bottom: 0; z-index: 20;
     background: var(--panel); border-top: 1px solid var(--line);
-    display: flex; justify-content: space-around; padding: 6px 0 calc(6px + env(safe-area-inset-bottom));
-    box-shadow: 0 -1px 6px rgba(0,0,0,.2);
+    padding: 6px 6px calc(6px + env(safe-area-inset-bottom)); display: grid; grid-template-columns: repeat(5,1fr); gap: 4px;
   }
-  nav.bottomnav button {
-    flex: 1; background: transparent; border: 0; color: var(--muted);
-    font: inherit; font-size: 11px; font-weight: 600; cursor: pointer;
-    padding: 8px 4px; display: flex; flex-direction: column; align-items: center; gap: 4px;
-    letter-spacing: .3px;
+  nav.bottom a {
+    display: flex; flex-direction: column; align-items: center; gap: 2px;
+    padding: 8px 4px; border-radius: 10px; text-decoration: none; color: var(--muted); font-size: 11px; font-weight: 600;
   }
-  nav.bottomnav button.active { color: var(--accent); }
-  nav.bottomnav button .icon { font-size: 18px; line-height: 1; }
-  nav.bottomnav button .badge {
-    display: none; position: absolute; top: 4px; transform: translateX(14px);
-    background: var(--danger); color: white; font-size: 9px; font-weight: 800;
-    padding: 1px 5px; border-radius: 999px; min-width: 16px; text-align: center;
-  }
-  nav.bottomnav button[data-view="conflicts"] { position: relative; }
-  nav.bottomnav button[data-view="conflicts"].has-conflicts .badge { display: inline-block; }
+  nav.bottom a.active { color: var(--accent); background: rgba(74,222,128,.08); }
+  nav.bottom a svg { width: 22px; height: 22px; }
 
-  /* View visibility */
-  section.view { display: none; }
-  section.view.active { display: block; }
+  /* Forms */
+  label { display: block; font-size: 13px; color: var(--muted); margin: 12px 0 6px; font-weight: 600; }
+  input[type=text], input[type=number], input[type=time], input[type=date], input[type=password], textarea, select {
+    width: 100%; background: var(--panel-2); border: 1px solid var(--line); color: var(--text);
+    border-radius: 10px; padding: 12px 12px; font: inherit;
+  }
+  textarea { min-height: 88px; resize: vertical; }
+  .day-toggles { display: flex; flex-wrap: wrap; gap: 6px; }
+  .day-toggle {
+    padding: 8px 12px; border-radius: 999px; background: var(--panel-2); color: var(--muted);
+    border: 1px solid var(--line); cursor: pointer; font-weight: 600; font-size: 13px;
+  }
+  .day-toggle.on { background: var(--accent); color: #06120c; border-color: var(--accent); }
 
-  /* Section headers within views */
-  .section-head {
-    font-size: 11px; text-transform: uppercase; letter-spacing: 1.2px;
-    color: var(--muted); margin: 14px 4px 8px;
-    display: flex; justify-content: space-between; align-items: center;
+  /* Station list rows */
+  .station-row {
+    display: grid; grid-template-columns: auto 1fr auto; gap: 10px; align-items: center;
+    padding: 12px 14px; background: var(--panel); border: 1px solid var(--line); border-radius: 10px;
+    margin: 0 14px 6px; cursor: pointer; color: inherit;
   }
+  .station-row .num {
+    background: var(--panel-2); width: 30px; height: 30px; border-radius: 8px;
+    display: grid; place-items: center; font-weight: 700; font-size: 14px;
+  }
+  .station-row .name { font-weight: 600; }
+  .station-row .sub { color: var(--muted); font-size: 12px; margin-top: 2px; }
 
-  /* Cards */
-  ul.cards { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
-  li.card {
-    background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
-    padding: 12px 14px; box-shadow: var(--shadow);
+  /* Week Gantt */
+  .gantt { padding: 0 14px; }
+  .gantt .day-strip { margin-bottom: 14px; }
+  .gantt .day-label { font-weight: 700; font-size: 13px; color: var(--muted); margin: 6px 4px; text-transform: uppercase; letter-spacing: .5px; }
+  .gantt .row-grid {
+    position: relative; height: 26px; background: var(--panel); border: 1px solid var(--line);
+    border-radius: 6px; margin-bottom: 4px; overflow: hidden;
   }
-  li.card.danger { border-color: var(--danger); background: var(--danger-bg); }
-  li.card.warn { border-color: var(--warn); background: var(--warn-bg); }
-  li.card .title { font-weight: 600; font-size: 15px; }
-  li.card .meta { color: var(--muted); font-size: 12px; margin-top: 3px; font-variant-numeric: tabular-nums; }
+  .gantt .row-label {
+    position: absolute; left: 6px; top: 50%; transform: translateY(-50%);
+    font-size: 11px; font-weight: 600; color: var(--muted); z-index: 2; pointer-events: none;
+    background: linear-gradient(90deg, var(--panel) 75%, transparent);
+    padding-right: 10px;
+  }
+  .gantt .block {
+    position: absolute; top: 3px; bottom: 3px; border-radius: 4px;
+    font-size: 10px; font-weight: 700; color: #06120c; padding: 0 4px;
+    display: flex; align-items: center; overflow: hidden; white-space: nowrap;
+    border: 1px solid transparent; cursor: pointer;
+  }
+  .gantt .block.conflict { border-color: var(--danger); box-shadow: 0 0 0 1px var(--danger) inset; }
+  .gantt .hour-axis { display: flex; height: 16px; margin: 4px 0 2px 0; font-size: 10px; color: var(--muted); position: relative; }
+  .gantt .hour-axis span { flex: 1; text-align: left; }
+  .gantt .legend { font-size: 11px; color: var(--muted); margin: 4px 4px 10px; display: flex; gap: 12px; flex-wrap: wrap; }
+  .gantt .legend .sw { display: inline-block; width: 10px; height: 10px; border-radius: 2px; vertical-align: middle; margin-right: 4px; }
 
-  /* Today view - timeline */
-  .tl-hour {
-    font-size: 11px; text-transform: uppercase; letter-spacing: 1.2px;
-    color: var(--muted); margin: 16px 4px 6px;
-  }
-  .tl-hour.now { color: var(--accent); }
-  .event {
-    display: grid; grid-template-columns: 76px 1fr auto; gap: 10px; align-items: center;
-    background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
-    padding: 10px 12px; margin-bottom: 6px; box-shadow: var(--shadow);
-    position: relative;
-  }
-  .event.now-event { box-shadow: 0 0 0 2px var(--accent); }
-  .event.has-conflict { border-color: var(--danger); background: linear-gradient(0deg, var(--danger-bg), var(--panel) 70%); }
-  .event.warn-conflict { border-color: var(--warn); }
-  .event .time-col .time { font-weight: 700; font-variant-numeric: tabular-nums; font-size: 13px; }
-  .event .time-col .time-end { font-size: 11px; color: var(--muted); font-variant-numeric: tabular-nums; }
-  .event .body .name { font-weight: 600; font-size: 14px; }
-  .event .body .ctx { font-size: 11px; color: var(--muted); margin-top: 2px; }
-  .event .right { text-align: right; }
-  .event .dur { font-weight: 700; font-size: 13px; font-variant-numeric: tabular-nums; }
-  .event .duration-budgeted { color: var(--muted); font-size: 11px; }
-  .now-tag {
-    display: inline-block; font-size: 9px; padding: 1px 6px; border-radius: 4px;
-    background: var(--accent); color: var(--bg); margin-left: 6px; letter-spacing: .5px; font-weight: 800;
-  }
-
-  /* Gantt view */
-  .gantt-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 8px; }
-  .gantt { min-width: 980px; display: flex; flex-direction: column; gap: 4px; }
-  .gantt-axis-row {
-    display: grid; grid-template-columns: 130px 1fr; gap: 6px;
-    margin-bottom: 2px;
-  }
-  .gantt-axis-spacer { /* aligns with label column */ }
-  .gantt-axis-hours {
-    display: grid; grid-template-columns: repeat(24, 1fr);
-    font-size: 10px; color: var(--muted);
-    padding-bottom: 4px; border-bottom: 1px dashed var(--line);
-  }
-  .gantt-axis-hours span {
-    padding: 2px 4px; border-left: 1px solid var(--line);
-    text-align: left;
-  }
-  .gantt-axis-hours span:first-child { border-left: 0; }
-  .gantt-row {
-    display: grid; grid-template-columns: 130px 1fr; gap: 6px;
-    align-items: stretch;
-  }
-  .gantt-label {
-    background: var(--panel); border: 1px solid var(--line); border-radius: 8px;
-    padding: 8px 10px; font-size: 12px; font-weight: 600;
-    display: flex; align-items: center;
-    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-  }
-  .gantt-track {
-    position: relative; height: 36px;
-    background: var(--panel-2); border: 1px solid var(--line); border-radius: 8px;
-    background-image: repeating-linear-gradient(
-      to right,
-      transparent 0,
-      transparent calc(100%/24 - 1px),
-      var(--line) calc(100%/24 - 1px),
-      var(--line) calc(100%/24)
-    );
-  }
-  .gantt-block {
-    position: absolute; top: 3px; bottom: 3px;
-    background: var(--accent); border-radius: 4px;
-    color: var(--bg); font-size: 10px; font-weight: 700;
-    padding: 2px 4px; overflow: hidden; white-space: nowrap;
-    display: flex; align-items: center;
-    box-sizing: border-box;
-    min-width: 4px;
-  }
-  .gantt-block.conflict { background: var(--danger); color: white; }
-  .gantt-block.warn { background: var(--warn); color: var(--bg); }
-  .view-toggle {
-    display: inline-flex; background: var(--panel-2); border: 1px solid var(--line);
-    border-radius: 10px; padding: 2px; margin: 8px 0;
-  }
-  .view-toggle button {
-    padding: 7px 14px; font: inherit; font-size: 12px; color: var(--muted);
-    background: transparent; border: 0; border-radius: 8px; cursor: pointer; font-weight: 600;
-  }
-  .view-toggle button.active { background: var(--bg); color: var(--text); box-shadow: var(--shadow); }
-
-  /* Conflicts view */
+  /* Conflicts list */
   .conflict-card {
-    border-left: 4px solid var(--danger);
+    padding: 12px 14px; background: var(--panel); border: 1px solid var(--line); border-left: 4px solid var(--danger);
+    border-radius: 10px; margin: 0 14px 8px;
   }
   .conflict-card.warn { border-left-color: var(--warn); }
-  .conflict-card .pair {
-    display: flex; align-items: center; gap: 8px; margin-top: 6px;
-    font-size: 13px; font-variant-numeric: tabular-nums;
-  }
-  .conflict-card .arrow { color: var(--muted); }
-  .conflict-card .gap-label {
-    display: inline-block; padding: 2px 8px; border-radius: 999px;
-    background: var(--danger); color: white; font-size: 11px; font-weight: 700;
-    margin-top: 6px;
-  }
-  .conflict-card.warn .gap-label { background: var(--warn); color: var(--bg); }
 
-  /* Controllers view */
-  .ctl-card {
-    background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
-    padding: 14px; margin-bottom: 10px; box-shadow: var(--shadow);
-  }
-  .ctl-card.placeholder { opacity: .55; border-style: dashed; }
-  .ctl-card h3 { margin: 0 0 8px; font-size: 15px; display: flex; align-items: center; gap: 8px; }
-  .ctl-card .ctl-type {
-    font-size: 10px; padding: 2px 6px; border-radius: 4px;
-    background: var(--panel-2); color: var(--muted); border: 1px solid var(--line); font-weight: 700;
-    letter-spacing: .5px;
-  }
-  .ctl-card .ctl-type.rainbird { color: var(--warn); border-color: var(--warn); }
-  .program-block { margin-top: 10px; padding: 10px; background: var(--panel-2); border-radius: 8px; }
-  .program-block .pname { font-weight: 600; font-size: 13px; margin-bottom: 4px; }
-  .program-block .pdetail { font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
-  .program-block .pzones { font-size: 12px; margin-top: 6px; }
-  .program-block .pzones .zone {
-    display: inline-block; padding: 2px 6px; border-radius: 4px;
-    background: var(--bg); border: 1px solid var(--line); margin: 2px 4px 2px 0;
-    font-variant-numeric: tabular-nums; font-size: 11px;
-  }
-  .program-block .pzones .zone.skip { opacity: .5; text-decoration: line-through; }
-  .ctl-summary {
-    display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px;
-    font-size: 11px; color: var(--muted);
-  }
-  .ctl-summary .stat {
-    background: var(--panel-2); padding: 4px 8px; border-radius: 6px;
-    border: 1px solid var(--line); font-variant-numeric: tabular-nums;
-  }
-
-  /* Checklist view */
-  .season-tabs { display: flex; gap: 4px; margin-bottom: 12px; flex-wrap: wrap; }
-  .season-tabs button {
-    flex: 1; padding: 10px 8px; border-radius: 10px; border: 1px solid var(--line);
-    background: var(--panel-2); color: var(--muted); font: inherit; font-weight: 600; font-size: 13px;
-    cursor: pointer; min-width: 80px;
-  }
-  .season-tabs button.active { background: var(--accent); color: var(--bg); border-color: var(--accent); }
-  .checklist-progress {
-    font-size: 12px; color: var(--muted); margin: 10px 4px;
-  }
+  /* Checklist */
   .check-item {
-    display: flex; align-items: flex-start; gap: 12px; padding: 10px 12px;
-    background: var(--panel); border: 1px solid var(--line); border-radius: 10px; margin-bottom: 6px;
+    display: flex; align-items: center; gap: 10px; padding: 12px 14px;
+    background: var(--panel); border: 1px solid var(--line); border-radius: 10px; margin: 0 14px 6px;
     cursor: pointer;
   }
-  .check-item.done { background: var(--panel-2); }
-  .check-item.done .text { text-decoration: line-through; color: var(--muted); }
-  .check-item .cb {
-    flex-shrink: 0; width: 24px; height: 24px; border-radius: 6px; margin-top: 1px;
-    border: 2px solid var(--line); display: grid; place-items: center;
-  }
-  .check-item.done .cb { background: var(--accent); border-color: var(--accent); }
-  .check-item .cb svg { width: 14px; height: 14px; color: var(--bg); opacity: 0; }
-  .check-item.done .cb svg { opacity: 1; }
-  .check-item .text { font-size: 14px; line-height: 1.35; }
-  .check-item .scope-tag {
-    font-size: 10px; color: var(--muted); margin-top: 3px;
-    text-transform: uppercase; letter-spacing: .8px; font-weight: 600;
-  }
-  .check-group {
-    margin-top: 14px;
-  }
-  .check-group .group-name {
-    font-size: 13px; font-weight: 700; margin-bottom: 6px; padding: 0 4px;
-  }
+  .check-item input { width: 22px; height: 22px; accent-color: var(--accent); }
+  .check-item.done .label { color: var(--muted); text-decoration: line-through; }
 
-  /* Loading */
-  .loading {
-    display: grid; place-items: center; padding: 60px 20px; color: var(--muted);
-    text-align: center;
+  /* Toast */
+  .toast {
+    position: fixed; left: 50%; transform: translateX(-50%); bottom: 100px;
+    background: var(--panel); border: 1px solid var(--line); padding: 10px 16px;
+    border-radius: 999px; box-shadow: var(--shadow); font-size: 13px; z-index: 30;
+    opacity: 0; transition: opacity .15s, bottom .15s; pointer-events: none;
   }
-  .loading .spinner {
-    width: 28px; height: 28px; border: 2px solid var(--line); border-top-color: var(--accent);
-    border-radius: 50%; animation: spin .8s linear infinite; margin-bottom: 10px;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
+  .toast.show { opacity: 1; bottom: 110px; }
+  .toast.err { border-color: var(--danger); color: var(--danger); }
 
-  /* Footer note */
-  footer.foot {
-    color: var(--muted); font-size: 11px; text-align: center; padding: 18px 14px 8px;
+  /* Save banner */
+  .save-banner {
+    position: sticky; top: 50px; z-index: 9;
+    background: var(--warn-bg); color: var(--warn); border-bottom: 1px solid var(--warn);
+    padding: 8px 14px; display: none; align-items: center; justify-content: space-between; gap: 10px; font-size: 13px; font-weight: 600;
   }
+  .save-banner.show { display: flex; }
+  .save-banner button { background: var(--warn); color: #1a1006; border: 0; border-radius: 8px; padding: 6px 12px; font-weight: 700; cursor: pointer; }
+
+  footer.app { color: var(--muted); font-size: 11px; text-align: center; padding: 14px; }
 </style>
 </head>
 <body>
+
 <header class="app">
   <div class="row">
-    <h1>Pike Irrigation</h1>
-    <span id="conflictPill" class="pill"></span>
+    <button id="back" class="back-btn" style="visibility:hidden">‹ Back</button>
+    <h1 id="title">Pike Irrigation</h1>
+    <div style="min-width: 50px; text-align: right;"><span id="conflict-pill" class="pill" style="display:none">0</span></div>
   </div>
-  <div class="subtle" style="margin-top:2px"><span id="dateLabel"></span> · <span id="clockLabel"></span></div>
 </header>
 
-<main>
-  <section class="view active" id="today-view">
-    <div class="loading"><div class="spinner"></div>Loading schedule…</div>
-  </section>
-  <section class="view" id="conflicts-view"></section>
-  <section class="view" id="controllers-view"></section>
-  <section class="view" id="checklist-view"></section>
-</main>
+<div id="save-banner" class="save-banner">
+  <span id="save-banner-text">1 unsaved change</span>
+  <span>
+    <button id="save-btn">Save</button>
+  </span>
+</div>
 
-<nav class="bottomnav">
-  <button data-view="today" class="active"><span class="icon">📅</span><span>Today</span></button>
-  <button data-view="conflicts"><span class="icon">⚠️</span><span>Conflicts</span><span class="badge">0</span></button>
-  <button data-view="controllers"><span class="icon">🔧</span><span>Controllers</span></button>
-  <button data-view="checklist"><span class="icon">✅</span><span>Checklist</span></button>
+<main id="app"></main>
+
+<nav class="bottom" id="nav">
+  <a href="#/" data-route="/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="6" rx="1"/><rect x="3" y="14" width="18" height="6" rx="1"/></svg>Controllers</a>
+  <a href="#/week" data-route="/week"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="1"/><path d="M3 9h18M8 3v4M16 3v4"/></svg>Week</a>
+  <a href="#/conflicts" data-route="/conflicts"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 22h20L12 2z"/><path d="M12 9v6M12 18h.01"/></svg>Conflicts</a>
+  <a href="#/checklist" data-route="/checklist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3 8-8"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Seasonal</a>
+  <a href="#/settings" data-route="/settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 0 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 0 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 0 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 0 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>Settings</a>
 </nav>
 
-<footer class="foot">
-  <div id="dataInfo"></div>
-</footer>
+<div class="toast" id="toast"></div>
 
 <script>
-// ==================== Data load ====================
-let CONTROLLERS = [];
-let CHECKLIST = null;
+// ==================== State ====================
+const STATE = {
+  controllers: [],   // K-Rain
+  rainbird: [],      // Rainbird TBOS
+  checklist: { seasons: {} },
+  controllersMeta: null,  // {generated_at, source}
+  rainbirdMeta: null,
+  dirty: { controllers: false, rainbird: false, checklist: false },
+  pat: localStorage.getItem('gh_pat') || '',
+  repo: 'jessepike/irrigation',
+  branch: 'main',
+};
+
+const DAYS = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+const DAY_SHORT = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+const PROGRAM_COLORS = ['#4ade80','#60a5fa','#f59e0b','#a78bfa','#f472b6','#34d399','#fb7185','#facc15'];
 
 async function loadData() {
-  const res = await Promise.all([
-    fetch('data/controllers.json').then(r => r.json()).catch(() => ({controllers: []})),
-    fetch('data/rainbird.json').then(r => r.json()).catch(() => ({controllers: []})),
-    fetch('data/checklist.json').then(r => r.json()).catch(() => ({seasons: {}})),
+  const [c, r, ch] = await Promise.all([
+    fetch('data/controllers.json').then(r => r.json()).catch(() => ({controllers:[]})),
+    fetch('data/rainbird.json').then(r => r.json()).catch(() => ({controllers:[]})),
+    fetch('data/checklist.json').then(r => r.json()).catch(() => ({seasons:{}})),
   ]);
-  CONTROLLERS = [...(res[0].controllers || []), ...(res[1].controllers || [])];
-  CHECKLIST = res[2];
-  document.querySelector('#dataInfo').textContent =
-    `Schedule generated ${res[0].generated_at || 'unknown'} · ${res[0].source || ''}`;
+  STATE.controllers = c.controllers || [];
+  STATE.rainbird = r.controllers || [];
+  STATE.checklist = ch || {seasons:{}};
+  STATE.controllersMeta = {generated_at: c.generated_at, source: c.source};
+  STATE.rainbirdMeta = {generated_at: r.generated_at, source: r.source, _comment: r._comment};
 }
 
-// ==================== Time helpers ====================
+function allControllers() { return [...STATE.controllers, ...STATE.rainbird]; }
+
+function findController(id) { return allControllers().find(c => c.id === id); }
+function findStation(ctl, num) { return (ctl.stations || []).find(s => s.number === num); }
+
+function markDirty(which) {
+  STATE.dirty[which] = true;
+  renderSaveBanner();
+}
+function isAnyDirty() { return Object.values(STATE.dirty).some(Boolean); }
+function dirtyList() { return Object.entries(STATE.dirty).filter(([_,v]) => v).map(([k]) => k); }
+
+// ==================== Time / event math ====================
 const $ = (s, r=document) => r.querySelector(s);
 const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
 function hhmmToMin(s) { if (!s) return 0; const [h,m]=s.split(':').map(Number); return h*60+m; }
 function fmtTime12(min) {
-  min = ((min % 1440) + 1440) % 1440;
-  const h=Math.floor(min/60), m=min%60;
+  if (min == null) return '';
+  const h = Math.floor(min/60) % 24, m = ((min%60)+60)%60;
   const p = h<12 ? 'AM' : 'PM'; const d = h%12 || 12;
-  return `${d}:${m.toString().padStart(2,'0')} ${p}`;
+  return `${d}:${String(m).padStart(2,'0')} ${p}`;
 }
 function fmtDur(min) {
   if (min < 60) return `${min} min`;
   const h=Math.floor(min/60), m=min%60;
-  return m ? `${h}h ${m}m` : `${h}h`;
+  return m? `${h}h ${m}m` : `${h}h`;
 }
-function nowMinutes() { const d=new Date(); return d.getHours()*60 + d.getMinutes(); }
-
+function todayDayName() { return DAYS[(new Date().getDay()+6)%7]; }
+function todayISO() { return new Date().toISOString().slice(0,10); }
 function escapeHtml(s) {
-  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
 
-// ==================== Compute run events ====================
-// For each controller → program → start_time → ordered stations,
-// produce event {start, end, controller, program, zone, duration_min, budgeted_min}.
-// Stations with duration 0 are skipped (cursor doesn't advance).
-function computeEvents(controllers) {
+// Compute events: each station-run within each program for each day-of-week.
+function computeEvents(controllers, dayFilter=null) {
   const events = [];
   for (const c of controllers) {
     for (const p of (c.programs || [])) {
       const budget = p.water_budget != null ? p.water_budget : 100;
-      for (const st of (p.start_times || [])) {
-        let cursor = hhmmToMin(st);
-        for (const s of (p.stations || [])) {
-          if (s.duration_min == null || s.duration_min <= 0) continue;
-          const budgeted = Math.round(s.duration_min * (budget/100));
-          events.push({
-            start: cursor,
-            end: cursor + budgeted,
-            controller: c.name,
-            controller_id: c.id,
-            controller_type: c.type,
-            program: p.name,
-            program_id: p.id,
-            zone_num: s.number,
-            zone_name: s.name,
-            duration_min: s.duration_min,
-            budgeted_min: budgeted,
-            budget,
-          });
-          cursor += budgeted;
-        }
-      }
-    }
-  }
-  events.sort((a,b) => a.start - b.start);
-  return events;
-}
-
-// ==================== Conflict detection ====================
-const BUFFER_MIN = 30;
-function detectConflicts(events) {
-  const conflicts = [];
-  for (let i = 0; i < events.length; i++) {
-    for (let j = i+1; j < events.length; j++) {
-      const a = events[i], b = events[j];
-      // Skip same program — sequential is by design
-      if (a.program_id === b.program_id) continue;
-      // Compute overlap and gap
-      const overlap = Math.max(0, Math.min(a.end, b.end) - Math.max(a.start, b.start));
-      const gap = overlap > 0 ? -overlap : (Math.max(a.start, b.start) - Math.min(a.end, b.end));
-      if (overlap > 0 || gap < BUFFER_MIN) {
-        const earlier = a.start <= b.start ? a : b;
-        const later = a.start <= b.start ? b : a;
-        conflicts.push({
-          a: earlier, b: later,
-          overlap, gap,
-          severity: overlap > 0 ? 'danger' : (gap < 10 ? 'danger' : 'warn'),
-        });
-      }
-    }
-  }
-  // Sort: overlaps first, then smallest gaps
-  conflicts.sort((x, y) => {
-    if (x.overlap !== y.overlap) return y.overlap - x.overlap;
-    return x.gap - y.gap;
-  });
-  return conflicts;
-}
-
-// ==================== Today view ====================
-function renderToday() {
-  const root = $('#today-view');
-  const events = computeEvents(CONTROLLERS);
-  const conflicts = detectConflicts(events);
-  const conflictedEventIds = new Set();
-  for (const c of conflicts) {
-    conflictedEventIds.add(eventId(c.a) + (c.severity === 'danger' ? '-danger' : '-warn'));
-    conflictedEventIds.add(eventId(c.b) + (c.severity === 'danger' ? '-danger' : '-warn'));
-  }
-
-  root.innerHTML = '';
-  // View toggle
-  const toggle = document.createElement('div');
-  toggle.className = 'view-toggle';
-  toggle.innerHTML = `<button class="active" data-sub="list">List</button><button data-sub="gantt">Gantt</button>`;
-  root.appendChild(toggle);
-
-  const subroot = document.createElement('div');
-  subroot.id = 'today-sub';
-  root.appendChild(subroot);
-
-  function renderSub(which) {
-    subroot.innerHTML = '';
-    if (which === 'list') renderEventList(subroot, events, conflictedEventIds);
-    else renderGantt(subroot, events, conflictedEventIds);
-  }
-
-  toggle.addEventListener('click', (e) => {
-    const btn = e.target.closest('button');
-    if (!btn) return;
-    $$('button', toggle).forEach(b => b.classList.toggle('active', b === btn));
-    renderSub(btn.dataset.sub);
-  });
-  renderSub('list');
-}
-
-function eventId(e) { return `${e.controller_id}|${e.program_id}|${e.zone_num}|${e.start}`; }
-
-function renderEventList(root, events, conflictedIds) {
-  if (!events.length) {
-    root.innerHTML = '<div class="loading" style="padding:30px">No scheduled events. Add controller data and refresh.</div>';
-    return;
-  }
-  const now = nowMinutes();
-  let lastHour = -999;
-  for (const e of events) {
-    const h = Math.floor(e.start / 60);
-    if (h !== lastHour) {
-      const div = document.createElement('div');
-      div.className = 'tl-hour';
-      const nowH = Math.floor(now/60);
-      if (h === nowH) div.classList.add('now');
-      const period = h < 12 ? 'AM' : 'PM';
-      div.textContent = `${h%12 || 12} ${period}`;
-      root.appendChild(div);
-      lastHour = h;
-    }
-    const ev = document.createElement('div');
-    ev.className = 'event';
-    const isDanger = conflictedIds.has(eventId(e) + '-danger');
-    const isWarn = conflictedIds.has(eventId(e) + '-warn');
-    if (isDanger) ev.classList.add('has-conflict');
-    else if (isWarn) ev.classList.add('warn-conflict');
-    if (Math.abs(e.start - now) < 15) ev.classList.add('now-event');
-    const isNow = e.start <= now && now < e.end;
-    const nowTag = isNow ? `<span class="now-tag">NOW</span>` : '';
-    const budgetNote = e.budget !== 100 ? ` <span class="duration-budgeted">@${e.budget}%</span>` : '';
-    ev.innerHTML = `
-      <div class="time-col">
-        <div class="time">${fmtTime12(e.start)}</div>
-        <div class="time-end">→ ${fmtTime12(e.end)}</div>
-      </div>
-      <div class="body">
-        <div class="name">${escapeHtml(e.controller)}${nowTag}</div>
-        <div class="ctx">${escapeHtml(e.program)} · S${e.zone_num} ${escapeHtml(e.zone_name)}</div>
-      </div>
-      <div class="right">
-        <div class="dur">${fmtDur(e.budgeted_min)}${budgetNote}</div>
-      </div>
-    `;
-    root.appendChild(ev);
-  }
-}
-
-function renderGantt(root, events, conflictedIds) {
-  // Order: controllers with events first (event order), then any zero-event controllers
-  const controllerOrder = [];
-  const seen = new Set();
-  for (const e of events) {
-    if (!seen.has(e.controller_id)) {
-      seen.add(e.controller_id);
-      controllerOrder.push({id: e.controller_id, name: e.controller});
-    }
-  }
-  for (const c of CONTROLLERS) {
-    if (!seen.has(c.id)) controllerOrder.push({id: c.id, name: c.name});
-  }
-  if (!controllerOrder.length) {
-    root.innerHTML = '<div class="loading" style="padding:30px">No controllers loaded.</div>';
-    return;
-  }
-
-  const wrap = document.createElement('div');
-  wrap.className = 'gantt-wrap';
-  const grid = document.createElement('div');
-  grid.className = 'gantt';
-
-  // Axis row
-  const axisRow = document.createElement('div');
-  axisRow.className = 'gantt-axis-row';
-  axisRow.innerHTML = `<div class="gantt-axis-spacer"></div><div class="gantt-axis-hours"></div>`;
-  const axisHours = axisRow.querySelector('.gantt-axis-hours');
-  for (let h = 0; h < 24; h++) {
-    const span = document.createElement('span');
-    span.textContent = `${h%12||12}${h<12?'a':'p'}`;
-    axisHours.appendChild(span);
-  }
-  grid.appendChild(axisRow);
-
-  // Rows
-  for (const c of controllerOrder) {
-    const row = document.createElement('div');
-    row.className = 'gantt-row';
-
-    const label = document.createElement('div');
-    label.className = 'gantt-label';
-    label.textContent = c.name;
-    label.title = c.name;
-    row.appendChild(label);
-
-    const track = document.createElement('div');
-    track.className = 'gantt-track';
-    const ctlEvents = events.filter(e => e.controller_id === c.id);
-    for (const e of ctlEvents) {
-      const block = document.createElement('div');
-      block.className = 'gantt-block';
-      const isDanger = conflictedIds.has(eventId(e) + '-danger');
-      const isWarn = conflictedIds.has(eventId(e) + '-warn');
-      if (isDanger) block.classList.add('conflict');
-      else if (isWarn) block.classList.add('warn');
-      const startPct = (e.start / 1440) * 100;
-      const widthPct = ((e.end - e.start) / 1440) * 100;
-      block.style.left = `${startPct}%`;
-      block.style.width = `${widthPct}%`;
-      block.title = `${e.controller} / ${e.program} S${e.zone_num} ${fmtTime12(e.start)}–${fmtTime12(e.end)} (${fmtDur(e.budgeted_min)})`;
-      block.textContent = `S${e.zone_num}`;
-      track.appendChild(block);
-    }
-    row.appendChild(track);
-    grid.appendChild(row);
-  }
-
-  wrap.appendChild(grid);
-  root.appendChild(wrap);
-
-  const note = document.createElement('div');
-  note.className = 'subtle';
-  note.style.cssText = 'margin-top:10px;text-align:center';
-  note.textContent = '← scroll horizontally →';
-  root.appendChild(note);
-}
-
-// ==================== Conflicts view ====================
-function renderConflicts() {
-  const root = $('#conflicts-view');
-  const events = computeEvents(CONTROLLERS);
-  const conflicts = detectConflicts(events);
-  root.innerHTML = '';
-
-  const head = document.createElement('div');
-  head.className = 'section-head';
-  head.innerHTML = `<span>${conflicts.length} ${conflicts.length === 1 ? 'conflict' : 'conflicts'} · ${BUFFER_MIN}-min buffer rule</span>`;
-  root.appendChild(head);
-
-  if (!conflicts.length) {
-    const empty = document.createElement('div');
-    empty.className = 'card';
-    empty.style.cssText = 'background:var(--panel);border:1px solid var(--accent);color:var(--accent);padding:18px;border-radius:12px;text-align:center;font-weight:600';
-    empty.textContent = '✓ No conflicts. Schedule is clean.';
-    root.appendChild(empty);
-    return;
-  }
-
-  const ul = document.createElement('ul');
-  ul.className = 'cards';
-  for (const c of conflicts) {
-    const li = document.createElement('li');
-    li.className = `card conflict-card ${c.severity === 'warn' ? 'warn' : ''}`;
-    const gapText = c.overlap > 0
-      ? `Overlap ${fmtDur(c.overlap)}`
-      : `${fmtDur(c.gap)} gap (want ${BUFFER_MIN})`;
-    li.innerHTML = `
-      <div class="title">${escapeHtml(c.a.controller)} <span class="subtle">/ ${escapeHtml(c.a.program)} S${c.a.zone_num}</span></div>
-      <div class="meta">${fmtTime12(c.a.start)} – ${fmtTime12(c.a.end)}</div>
-      <div class="pair">
-        <span class="arrow">↓</span>
-        <span class="gap-label">${gapText}</span>
-      </div>
-      <div class="title" style="margin-top:6px">${escapeHtml(c.b.controller)} <span class="subtle">/ ${escapeHtml(c.b.program)} S${c.b.zone_num}</span></div>
-      <div class="meta">${fmtTime12(c.b.start)} – ${fmtTime12(c.b.end)}</div>
-    `;
-    ul.appendChild(li);
-  }
-  root.appendChild(ul);
-}
-
-// ==================== Controllers view ====================
-function renderControllers() {
-  const root = $('#controllers-view');
-  root.innerHTML = '';
-  const head = document.createElement('div');
-  head.className = 'section-head';
-  head.textContent = `${CONTROLLERS.length} controllers`;
-  root.appendChild(head);
-
-  for (const c of CONTROLLERS) {
-    const card = document.createElement('div');
-    card.className = 'ctl-card';
-    const isPlaceholder = !(c.programs || []).some(p => (p.start_times || []).length > 0);
-    if (isPlaceholder) card.classList.add('placeholder');
-
-    const totalRuntime = (c.programs || []).reduce((sum, p) => {
-      const perRun = (p.stations || []).reduce((s, st) => s + (st.duration_min || 0), 0);
-      return sum + perRun * (p.start_times || []).length * ((p.water_budget || 100)/100);
-    }, 0);
-    const startCount = (c.programs || []).reduce((s, p) => s + (p.start_times || []).length, 0);
-
-    card.innerHTML = `
-      <h3>${escapeHtml(c.name)}<span class="ctl-type ${c.type}">${(c.type||'').toUpperCase()}</span></h3>
-      ${c.notes ? `<div class="subtle">${escapeHtml(c.notes)}</div>` : ''}
-      <div class="ctl-summary">
-        <span class="stat">${(c.programs || []).length} programs</span>
-        <span class="stat">${startCount} start times/day</span>
-        <span class="stat">${Math.round(totalRuntime)} min/day total</span>
-      </div>
-      <div class="programs"></div>
-    `;
-    const progRoot = card.querySelector('.programs');
-    for (const p of (c.programs || [])) {
-      const pb = document.createElement('div');
-      pb.className = 'program-block';
-      const startList = (p.start_times || []).map(s => fmtTime12(hhmmToMin(s))).join(', ') || '—';
-      const zonesHTML = (p.stations || []).map(s =>
-        `<span class="zone${s.duration_min === 0 ? ' skip' : ''}">S${s.number}: ${s.duration_min || 0}m</span>`
-      ).join('');
-      pb.innerHTML = `
-        <div class="pname">${escapeHtml(p.name)} <span class="subtle">· budget ${p.water_budget != null ? p.water_budget : 100}%</span></div>
-        <div class="pdetail">Starts: ${startList} · Days: ${(p.days||[]).length === 7 ? 'every day' : (p.days||[]).join(', ') || '—'}</div>
-        <div class="pzones">${zonesHTML || '<span class="subtle">No zones configured</span>'}</div>
-      `;
-      progRoot.appendChild(pb);
-    }
-    root.appendChild(card);
-  }
-}
-
-// ==================== Checklist view ====================
-function getCurrentSeason() {
-  const m = new Date().getMonth(); // 0-indexed
-  if (m <= 1 || m === 11) return 'winter';   // Dec, Jan, Feb
-  if (m <= 4) return 'spring';                // Mar, Apr, May
-  if (m <= 7) return 'summer';                // Jun, Jul, Aug
-  return 'fall';                              // Sep, Oct, Nov
-}
-let CURRENT_SEASON = getCurrentSeason();
-const CHECKLIST_YEAR = new Date().getFullYear();
-
-function checklistKey() { return `pike-irrig:checklist:${CHECKLIST_YEAR}:${CURRENT_SEASON}`; }
-function loadChecklistState() {
-  try { return JSON.parse(localStorage.getItem(checklistKey()) || '{}'); }
-  catch { return {}; }
-}
-function saveChecklistState(state) { localStorage.setItem(checklistKey(), JSON.stringify(state)); }
-
-function expandChecklistItems(season) {
-  // Expand each item by scope. Each expanded item carries controller_id (or null for global)
-  // and a per-row label (zone-scoped items get "Program · S2", controller-scoped get just the item text).
-  const expanded = [];
-  for (const item of (CHECKLIST?.seasons?.[season]?.items || [])) {
-    if (item.scope === 'global') {
-      expanded.push({
-        ...item, key: `${item.id}|global`,
-        controller_id: null, controller_name: null,
-        rowLabel: item.text, sublabel: null,
-      });
-    } else if (item.scope === 'controller') {
-      for (const c of CONTROLLERS) {
-        expanded.push({
-          ...item, key: `${item.id}|${c.id}`,
-          controller_id: c.id, controller_name: c.name,
-          rowLabel: item.text, sublabel: null,
-        });
-      }
-    } else if (item.scope === 'zone') {
-      for (const c of CONTROLLERS) {
-        for (const p of (c.programs || [])) {
+      const days = p.days || [];
+      for (const day of days) {
+        if (dayFilter && day !== dayFilter) continue;
+        for (const st of (p.start_times || [])) {
+          let cursor = hhmmToMin(st);
           for (const s of (p.stations || [])) {
-            if (s.duration_min === 0) continue;
-            const ref = `${c.id}|${p.id}|${s.number}`;
-            expanded.push({
-              ...item, key: `${item.id}|${ref}`,
-              controller_id: c.id, controller_name: c.name,
-              rowLabel: item.text,
-              sublabel: `${p.name} · S${s.number} ${s.name}`,
+            if (!s.duration_min || s.duration_min <= 0) continue;
+            const budgeted = Math.round(s.duration_min * (budget/100));
+            events.push({
+              start: cursor, end: cursor + budgeted, day,
+              controller: c.name, controller_id: c.id, controller_type: c.type,
+              program: p.name, program_id: p.id,
+              station_num: s.number, station_name: s.name,
+              duration_min: s.duration_min, budgeted_min: budgeted,
             });
+            cursor += budgeted;
           }
         }
       }
     }
   }
-  return expanded;
+  events.sort((a,b) => (DAYS.indexOf(a.day) - DAYS.indexOf(b.day)) || (a.start - b.start));
+  return events;
 }
 
-function renderChecklist() {
-  const root = $('#checklist-view');
-  root.innerHTML = '';
+const BUFFER_MIN = 30;
+function detectConflicts(events) {
+  const conflicts = [];
+  const byDay = {};
+  for (const e of events) (byDay[e.day] = byDay[e.day] || []).push(e);
+  for (const day of Object.keys(byDay)) {
+    const list = byDay[day];
+    for (let i = 0; i < list.length; i++) {
+      for (let j = i+1; j < list.length; j++) {
+        const a = list[i], b = list[j];
+        if (a.controller_id === b.controller_id && a.program_id === b.program_id) continue;
+        const overlap = Math.max(0, Math.min(a.end, b.end) - Math.max(a.start, b.start));
+        const gap = overlap > 0 ? -overlap : (Math.max(a.start, b.start) - Math.min(a.end, b.end));
+        if (overlap > 0 || gap < BUFFER_MIN) {
+          const earlier = a.start <= b.start ? a : b;
+          const later = a.start <= b.start ? b : a;
+          conflicts.push({
+            a: earlier, b: later, day,
+            overlap, gap,
+            severity: overlap > 0 ? 'danger' : (gap < 10 ? 'danger' : 'warn'),
+          });
+        }
+      }
+    }
+  }
+  conflicts.sort((x,y) => (y.overlap - x.overlap) || (x.gap - y.gap));
+  return conflicts;
+}
 
-  if (!CHECKLIST?.seasons) {
-    root.innerHTML = '<div class="loading">No checklist data</div>';
+function conflictsForController(id) {
+  const events = computeEvents(allControllers());
+  return detectConflicts(events).filter(c => c.a.controller_id === id || c.b.controller_id === id);
+}
+
+function conflictsForStation(controllerId, stationNum) {
+  const events = computeEvents(allControllers());
+  return detectConflicts(events).filter(c =>
+    (c.a.controller_id === controllerId && c.a.station_num === stationNum) ||
+    (c.b.controller_id === controllerId && c.b.station_num === stationNum));
+}
+
+// ==================== Router ====================
+function parseRoute() {
+  const hash = location.hash || '#/';
+  const path = hash.replace(/^#/, '') || '/';
+  const parts = path.split('/').filter(Boolean);
+  return { path, parts };
+}
+
+function navigate(path) { location.hash = '#' + path; }
+
+window.addEventListener('hashchange', render);
+
+// ==================== Render dispatcher ====================
+async function render() {
+  const { parts } = parseRoute();
+  const root = $('#app');
+  root.innerHTML = '';
+  // Update header back button + title
+  const back = $('#back');
+  back.style.visibility = (parts.length > 0) ? 'visible' : 'hidden';
+  back.onclick = () => history.back();
+  // Highlight bottom nav
+  $$('#nav a').forEach(a => a.classList.remove('active'));
+  const route = '/' + (parts[0] || '');
+  const activeNav = $$('#nav a').find(a => a.dataset.route === route || (route === '/' && a.dataset.route === '/'));
+  if (activeNav) activeNav.classList.add('active');
+
+  if (parts[0] === 'c' && parts[1] && parts[2] === 's' && parts[3]) {
+    renderStationDetail(parts[1], Number(parts[3]));
+  } else if (parts[0] === 'c' && parts[1]) {
+    renderControllerDetail(parts[1]);
+  } else if (parts[0] === 'week') {
+    renderWeek();
+  } else if (parts[0] === 'conflicts') {
+    renderConflicts();
+  } else if (parts[0] === 'checklist') {
+    renderSeasonalChecklist();
+  } else if (parts[0] === 'settings') {
+    renderSettings();
+  } else {
+    renderControllersList();
+  }
+  renderConflictPill();
+  renderSaveBanner();
+}
+
+// ==================== Conflict pill / save banner ====================
+function renderConflictPill() {
+  const events = computeEvents(allControllers());
+  const all = detectConflicts(events);
+  const pill = $('#conflict-pill');
+  if (all.length) {
+    pill.textContent = all.length + (all.length === 1 ? ' conflict' : ' conflicts');
+    pill.className = 'pill danger';
+    pill.style.display = '';
+    pill.onclick = () => navigate('/conflicts');
+    pill.style.cursor = 'pointer';
+  } else {
+    pill.style.display = 'none';
+  }
+}
+
+function renderSaveBanner() {
+  const banner = $('#save-banner');
+  const text = $('#save-banner-text');
+  const btn = $('#save-btn');
+  if (isAnyDirty()) {
+    const items = dirtyList();
+    text.textContent = `Unsaved changes in ${items.join(', ')}`;
+    banner.classList.add('show');
+    btn.onclick = saveChanges;
+  } else {
+    banner.classList.remove('show');
+  }
+}
+
+// ==================== Controllers list ====================
+function renderControllersList() {
+  $('#title').textContent = 'Controllers';
+  const root = $('#app');
+  const list = allControllers();
+  if (!list.length) {
+    root.innerHTML = '<p class="muted container">No controllers loaded.</p>';
     return;
   }
+  const html = list.map(c => {
+    const conflicts = conflictsForController(c.id);
+    const stationCount = (c.stations || []).length;
+    const verified = (c.stations || []).filter(s => s.last_verified === todayISO().slice(0,7) || (s.last_verified && s.last_verified >= seasonStartISO())).length;
+    const badges = [];
+    if (conflicts.length) badges.push(`<span class="pill danger">${conflicts.length}</span>`);
+    if (stationCount === 0) badges.push(`<span class="pill warn">empty</span>`);
+    else if (verified === stationCount) badges.push(`<span class="pill ok">✓ ${verified}/${stationCount}</span>`);
+    else badges.push(`<span class="pill">${verified}/${stationCount} verified</span>`);
+    return `
+      <a class="row-link" href="#/c/${encodeURIComponent(c.id)}">
+        <div>
+          <div class="title">${escapeHtml(c.name)}</div>
+          <div class="sub">${escapeHtml(c.type)} · ${(c.programs||[]).length} program${(c.programs||[]).length===1?'':'s'} · ${stationCount} station${stationCount===1?'':'s'}</div>
+        </div>
+        <div class="badges">${badges.join('')}</div>
+      </a>
+    `;
+  }).join('');
+  root.innerHTML = `<div style="padding: 12px 0 4px;"></div>${html}`;
+}
 
-  // Season tabs
-  const tabs = document.createElement('div');
-  tabs.className = 'season-tabs';
-  for (const [key, s] of Object.entries(CHECKLIST.seasons)) {
-    const btn = document.createElement('button');
-    if (key === CURRENT_SEASON) btn.classList.add('active');
-    btn.textContent = `${s.icon || ''} ${s.label}`;
-    btn.addEventListener('click', () => { CURRENT_SEASON = key; renderChecklist(); });
-    tabs.appendChild(btn);
-  }
-  root.appendChild(tabs);
+function seasonStartISO() {
+  // Consider "this season" as within the past 90 days for the verified pill.
+  const d = new Date(); d.setDate(d.getDate() - 90);
+  return d.toISOString().slice(0,10);
+}
 
-  const items = expandChecklistItems(CURRENT_SEASON);
-  let state = loadChecklistState();
+// ==================== Controller detail ====================
+function renderControllerDetail(id) {
+  const ctl = findController(id);
+  if (!ctl) { $('#app').innerHTML = '<p class="muted container">Controller not found.</p>'; return; }
+  $('#title').textContent = ctl.name;
 
-  // Progress
-  const done = items.filter(i => state[i.key]).length;
-  const prog = document.createElement('div');
-  prog.className = 'checklist-progress';
-  prog.textContent = `${done} / ${items.length} done · ${CHECKLIST.seasons[CURRENT_SEASON].label} ${CHECKLIST_YEAR}`;
-  root.appendChild(prog);
-
-  // Group by controller (with a "Global" pseudo-group at the top for global items).
-  // Within each controller group: controller-scoped items first, then zone-scoped.
-  const globalItems = items.filter(i => i.controller_id === null);
-  const byCtl = new Map();
-  for (const it of items) {
-    if (it.controller_id === null) continue;
-    if (!byCtl.has(it.controller_id)) byCtl.set(it.controller_id, { name: it.controller_name, items: [] });
-    byCtl.get(it.controller_id).items.push(it);
-  }
-  // Sort each controller's items: scope=controller first, then zone, preserving original order otherwise
-  for (const v of byCtl.values()) {
-    v.items.sort((a, b) => {
-      const ord = { 'controller': 0, 'zone': 1, 'global': 2 };
-      return (ord[a.scope] ?? 99) - (ord[b.scope] ?? 99);
-    });
-  }
-
-  function renderItemRow(it) {
-    const row = document.createElement('div');
-    row.className = 'check-item' + (state[it.key] ? ' done' : '');
-    row.innerHTML = `
-      <div class="cb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-      <div style="flex:1;min-width:0">
-        <div class="text">${escapeHtml(it.rowLabel)}</div>
-        ${it.sublabel ? `<div class="scope-tag">${escapeHtml(it.sublabel)}</div>` : ''}
+  const programsHtml = (ctl.programs || []).map((p, idx) => {
+    const color = PROGRAM_COLORS[idx % PROGRAM_COLORS.length];
+    const starts = (p.start_times || []).join(', ') || '—';
+    const days = (p.days || []).length === 7 ? 'Daily' : (p.days || []).map(d => d.slice(0,3)).join(', ') || '—';
+    return `
+      <div class="card">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+          <span style="display:inline-block; width:10px; height:10px; border-radius:2px; background:${color};"></span>
+          <strong>${escapeHtml(p.name)}</strong>
+          <span class="pill" style="margin-left:auto">${p.water_budget ?? 100}%</span>
+        </div>
+        <div class="small muted">Starts: <strong style="color:var(--text)">${escapeHtml(starts)}</strong></div>
+        <div class="small muted">Days: ${escapeHtml(days)}</div>
+        <button class="btn ghost small" style="margin-top:10px; padding:6px 10px; font-size:13px;" data-edit-program="${escapeHtml(p.id)}">Edit program</button>
       </div>
     `;
-    row.addEventListener('click', () => {
-      state = loadChecklistState();
-      if (state[it.key]) delete state[it.key]; else state[it.key] = true;
-      saveChecklistState(state);
-      renderChecklist();
-    });
-    return row;
-  }
+  }).join('') || '<p class="muted container">No programs.</p>';
 
-  // Global section
-  if (globalItems.length) {
-    const g = document.createElement('div');
-    g.className = 'check-group';
-    const head = document.createElement('div');
-    head.className = 'group-name';
-    head.textContent = 'Global';
-    g.appendChild(head);
-    for (const it of globalItems) g.appendChild(renderItemRow(it));
-    root.appendChild(g);
-  }
+  const stationsHtml = (ctl.stations || []).map(s => {
+    const conflicts = conflictsForStation(ctl.id, s.number);
+    const verified = s.last_verified && s.last_verified >= seasonStartISO();
+    const badges = [];
+    if (conflicts.length) badges.push(`<span class="pill danger">⚠</span>`);
+    if (verified) badges.push(`<span class="pill ok">✓</span>`);
+    // Find duration in primary (first) program
+    const dur = (ctl.programs || []).flatMap(p => p.stations || []).find(ps => ps.number === s.number)?.duration_min ?? 0;
+    return `
+      <a class="station-row" href="#/c/${encodeURIComponent(ctl.id)}/s/${s.number}">
+        <div class="num">${s.number}</div>
+        <div>
+          <div class="name">${escapeHtml(s.zone_name || s.name || 'Station ' + s.number)}</div>
+          <div class="sub">${dur > 0 ? fmtDur(dur) : 'inactive'}${s.notes ? ' · ' + escapeHtml(s.notes.slice(0, 40)) + (s.notes.length>40?'…':'') : ''}</div>
+        </div>
+        <div class="badges">${badges.join('')}</div>
+      </a>
+    `;
+  }).join('') || '<p class="muted container">No stations recorded.</p>';
 
-  // Per-controller sections, in CONTROLLERS order
-  for (const c of CONTROLLERS) {
-    const grp = byCtl.get(c.id);
-    if (!grp || !grp.items.length) continue;
-    const g = document.createElement('div');
-    g.className = 'check-group';
-    const doneHere = grp.items.filter(i => state[i.key]).length;
-    const head = document.createElement('div');
-    head.className = 'group-name';
-    head.innerHTML = `${escapeHtml(c.name)} <span class="subtle" style="font-weight:400">${doneHere}/${grp.items.length}</span>`;
-    g.appendChild(head);
-    for (const it of grp.items) g.appendChild(renderItemRow(it));
-    root.appendChild(g);
-  }
+  $('#app').innerHTML = `
+    <h3 style="margin: 14px 14px 6px;">Programs</h3>
+    ${programsHtml}
+    <h3 style="margin: 18px 14px 6px;">Stations</h3>
+    ${stationsHtml}
+  `;
 
-  // Reset button at bottom
-  const resetWrap = document.createElement('div');
-  resetWrap.style.cssText = 'margin-top:18px;text-align:center';
-  resetWrap.innerHTML = `<button class="btn" id="resetSeasonBtn" style="background:var(--panel-2);color:var(--muted);border:1px solid var(--line);padding:8px 14px;border-radius:8px;font-size:12px;cursor:pointer">Reset ${CHECKLIST.seasons[CURRENT_SEASON].label} ${CHECKLIST_YEAR}</button>`;
-  root.appendChild(resetWrap);
-  $('#resetSeasonBtn').addEventListener('click', () => {
-    if (!confirm(`Reset all ${CHECKLIST.seasons[CURRENT_SEASON].label} ${CHECKLIST_YEAR} checks?`)) return;
-    saveChecklistState({});
-    renderChecklist();
+  // Wire program edit buttons
+  $$('[data-edit-program]').forEach(b => b.onclick = () => openProgramEdit(ctl.id, b.dataset.editProgram));
+}
+
+// ==================== Station detail ====================
+function renderStationDetail(controllerId, stationNum) {
+  const ctl = findController(controllerId);
+  if (!ctl) { $('#app').innerHTML = '<p class="muted container">Controller not found.</p>'; return; }
+  const s = findStation(ctl, stationNum);
+  if (!s) { $('#app').innerHTML = '<p class="muted container">Station not found.</p>'; return; }
+  $('#title').textContent = `${ctl.name} · S${stationNum}`;
+
+  // Find all program entries for this station
+  const progEntries = (ctl.programs || []).flatMap(p =>
+    (p.stations || []).filter(ps => ps.number === stationNum).map(ps => ({ program: p, ps }))
+  );
+
+  const runtimesHtml = progEntries.map(({program, ps}) => {
+    const starts = (program.start_times || []).map(st => {
+      // Compute when THIS station starts within this program
+      let cursor = hhmmToMin(st);
+      for (const psib of (program.stations || [])) {
+        if (psib.number === stationNum) {
+          const budgeted = Math.round((psib.duration_min || 0) * ((program.water_budget ?? 100)/100));
+          if (!psib.duration_min) return null;
+          return `${fmtTime12(cursor)} → ${fmtTime12(cursor + budgeted)}`;
+        }
+        cursor += Math.round((psib.duration_min || 0) * ((program.water_budget ?? 100)/100));
+      }
+      return null;
+    }).filter(Boolean);
+    return `
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; gap:8px;">
+          <strong>${escapeHtml(program.name)}</strong>
+          <span class="muted small">${ps.duration_min || 0} min</span>
+        </div>
+        <div class="small muted" style="margin-top:4px;">
+          ${starts.length ? starts.join(' · ') : '<em>inactive (0 min)</em>'}
+        </div>
+        <div class="small muted">Days: ${(program.days||[]).length===7?'Daily':(program.days||[]).map(d=>d.slice(0,3)).join(', ')||'—'}</div>
+      </div>
+    `;
+  }).join('');
+
+  const conflicts = conflictsForStation(controllerId, stationNum);
+  const conflictsHtml = conflicts.length ? `
+    <h3 style="margin:18px 14px 6px;">Conflicts</h3>
+    ${conflicts.map(c => {
+      const other = (c.a.controller_id === controllerId && c.a.station_num === stationNum) ? c.b : c.a;
+      const tag = c.overlap > 0 ? `Overlap ${c.overlap}m` : `Gap only ${c.gap}m`;
+      return `
+        <div class="conflict-card ${c.severity === 'warn' ? 'warn' : ''}">
+          <strong>${tag}</strong> · ${escapeHtml(c.day.slice(0,3))} ${fmtTime12(Math.min(c.a.start, c.b.start))}<br>
+          <span class="muted small">vs ${escapeHtml(other.controller)} ${escapeHtml(other.program)} S${other.station_num}</span>
+        </div>
+      `;
+    }).join('')}
+  ` : '';
+
+  // Determine primary program for duration edit (first with this station)
+  const primary = progEntries[0];
+  const primaryDur = primary ? (primary.ps.duration_min || 0) : 0;
+  const primaryProgId = primary ? primary.program.id : '';
+
+  $('#app').innerHTML = `
+    <div class="container" style="padding-top: 12px;">
+      <label>Zone name</label>
+      <input type="text" id="f-zone" value="${escapeHtml(s.zone_name || '')}" placeholder="e.g. Front lawn south">
+
+      ${progEntries.length ? `
+        <label>Duration in <strong style="color:var(--text)">${escapeHtml(primary.program.name)}</strong> (min)</label>
+        <input type="number" id="f-dur" min="0" max="240" step="1" value="${primaryDur}">
+        ${progEntries.length > 1 ? `<div class="small muted" style="margin-top:4px;">Other programs (${progEntries.slice(1).map(e=>escapeHtml(e.program.name)).join(', ')}) — edit those from each program page.</div>` : ''}
+      ` : '<p class="muted small">This station has no program assignments.</p>'}
+
+      <label>Last verified</label>
+      <div style="display:flex; gap:8px;">
+        <input type="date" id="f-verified" value="${escapeHtml(s.last_verified || '')}" style="flex:1">
+        <button class="btn ghost" id="stamp-today" type="button">Today</button>
+      </div>
+
+      <label>Notes</label>
+      <textarea id="f-notes" placeholder="head count, GPM, quirks…">${escapeHtml(s.notes || '')}</textarea>
+
+      <label>Check</label>
+      ${(s.checklist || []).map((ci, i) => `
+        <div class="check-item ${ci.done ? 'done' : ''}" data-i="${i}">
+          <input type="checkbox" ${ci.done ? 'checked' : ''}>
+          <span class="label">${escapeHtml(ci.text)}</span>
+        </div>
+      `).join('')}
+    </div>
+
+    <h3 style="margin: 18px 14px 6px;">Run times</h3>
+    ${runtimesHtml || '<p class="muted container">No run times.</p>'}
+
+    ${conflictsHtml}
+
+    <div style="height: 24px;"></div>
+  `;
+
+  // Wire edits
+  const apply = () => {
+    const newZone = $('#f-zone').value.trim();
+    const newVerified = $('#f-verified').value.trim();
+    const newNotes = $('#f-notes').value;
+    if (s.zone_name !== newZone) { s.zone_name = newZone; markDirty('controllers'); }
+    if (s.last_verified !== newVerified) { s.last_verified = newVerified; markDirty('controllers'); }
+    if (s.notes !== newNotes) { s.notes = newNotes; markDirty('controllers'); }
+  };
+  $('#f-zone').addEventListener('change', apply);
+  $('#f-verified').addEventListener('change', apply);
+  $('#f-notes').addEventListener('change', apply);
+  $('#stamp-today').addEventListener('click', () => {
+    s.last_verified = todayISO();
+    markDirty('controllers');
+    render();
   });
+  const durInput = $('#f-dur');
+  if (durInput) {
+    durInput.addEventListener('change', () => {
+      const v = Math.max(0, parseInt(durInput.value || '0', 10));
+      const ps = (primary.program.stations || []).find(p => p.number === stationNum);
+      if (ps && ps.duration_min !== v) { ps.duration_min = v; markDirty('controllers'); render(); }
+    });
+  }
+  $$('.check-item').forEach(el => {
+    el.onclick = (e) => {
+      if (e.target.tagName === 'INPUT') {} else {
+        const cb = el.querySelector('input');
+        cb.checked = !cb.checked;
+      }
+      const i = +el.dataset.i;
+      s.checklist[i].done = el.querySelector('input').checked;
+      markDirty('controllers');
+      render();
+    };
+  });
+
+  // Mark dirty for which file
+  const isRainbird = ctl.type === 'rainbird';
+  if (isRainbird) {
+    // override: when station edits touch rainbird, mark rainbird dirty instead
+    ['f-zone','f-verified','f-notes','f-dur'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.addEventListener('change', () => { STATE.dirty.controllers = false; markDirty('rainbird'); });
+    });
+  }
 }
 
-// ==================== Header pills ====================
-function updateHeaderPills() {
-  const events = computeEvents(CONTROLLERS);
+// ==================== Program edit modal-ish ====================
+function openProgramEdit(controllerId, programId) {
+  const ctl = findController(controllerId);
+  const p = (ctl.programs || []).find(x => x.id === programId);
+  if (!p) return;
+  $('#title').textContent = `${ctl.name} · ${p.name}`;
+  $('#back').style.visibility = 'visible';
+  $('#back').onclick = () => navigate('/c/' + encodeURIComponent(controllerId));
+
+  const dayHtml = DAYS.map(d => `
+    <span class="day-toggle ${(p.days||[]).includes(d)?'on':''}" data-day="${d}">${d.slice(0,3)}</span>
+  `).join('');
+
+  $('#app').innerHTML = `
+    <div class="container" style="padding-top: 12px;">
+      <label>Start times (comma separated, HH:MM)</label>
+      <input type="text" id="f-starts" value="${escapeHtml((p.start_times||[]).join(', '))}" placeholder="02:00, 14:45">
+
+      <label>Days</label>
+      <div class="day-toggles">${dayHtml}</div>
+
+      <label>Water budget (%)</label>
+      <input type="number" id="f-budget" min="0" max="200" value="${p.water_budget ?? 100}">
+
+      <div style="height: 16px;"></div>
+      <div style="display:flex; gap:8px;">
+        <button class="btn" id="prog-save">Apply</button>
+        <a href="#/c/${encodeURIComponent(controllerId)}" class="btn ghost" style="text-decoration:none;display:inline-block;">Cancel</a>
+      </div>
+    </div>
+  `;
+
+  $$('.day-toggle').forEach(t => t.onclick = () => t.classList.toggle('on'));
+  $('#prog-save').onclick = () => {
+    const starts = $('#f-starts').value.split(/[,\s]+/).filter(Boolean).map(s => s.trim());
+    // Validate HH:MM
+    const valid = starts.every(s => /^\d{1,2}:\d{2}$/.test(s));
+    if (!valid) { toast('Invalid time format. Use HH:MM.', true); return; }
+    p.start_times = starts.map(s => {
+      const [h,m] = s.split(':'); return `${String(+h).padStart(2,'0')}:${String(+m).padStart(2,'0')}`;
+    }).sort();
+    p.days = $$('.day-toggle.on').map(t => t.dataset.day);
+    p.water_budget = Math.max(0, parseInt($('#f-budget').value || '100', 10));
+    markDirty(ctl.type === 'rainbird' ? 'rainbird' : 'controllers');
+    navigate('/c/' + encodeURIComponent(controllerId));
+  };
+}
+
+// ==================== Week Gantt ====================
+function renderWeek() {
+  $('#title').textContent = 'Week';
+  const events = computeEvents(allControllers());
   const conflicts = detectConflicts(events);
-  const pill = $('#conflictPill');
+  const conflictKey = new Set();
+  for (const c of conflicts) {
+    conflictKey.add(`${c.day}|${c.a.controller_id}|${c.a.program_id}|${c.a.station_num}|${c.a.start}`);
+    conflictKey.add(`${c.day}|${c.b.controller_id}|${c.b.program_id}|${c.b.station_num}|${c.b.start}`);
+  }
+
+  // Determine min/max hour with activity
+  let minH = 24, maxH = 0;
+  for (const e of events) { minH = Math.min(minH, Math.floor(e.start/60)); maxH = Math.max(maxH, Math.ceil(e.end/60)); }
+  if (minH >= maxH) { minH = 6; maxH = 20; }
+  // Pad a little
+  minH = Math.max(0, minH - 1); maxH = Math.min(24, maxH + 1);
+  const hoursSpan = maxH - minH;
+
+  // Color map per (controller_id + program_id)
+  const colorMap = new Map();
+  let colorIdx = 0;
+  for (const c of allControllers()) {
+    for (const p of (c.programs || [])) {
+      colorMap.set(c.id + '|' + p.id, PROGRAM_COLORS[colorIdx++ % PROGRAM_COLORS.length]);
+    }
+  }
+
+  // Build hour axis labels
+  const axisLabels = [];
+  for (let h = minH; h < maxH; h++) {
+    const lab = h===0?'12a':h<12?h+'a':h===12?'12p':(h-12)+'p';
+    axisLabels.push(`<span>${lab}</span>`);
+  }
+
+  const ctlList = allControllers().filter(c => (c.stations || []).length > 0 || (c.programs || []).some(p => (p.stations||[]).length > 0));
+
+  const todayName = todayDayName();
+  const dayHtml = DAYS.map(day => {
+    const isToday = day === todayName;
+    const rows = ctlList.map(ctl => {
+      const dayEvts = events.filter(e => e.day === day && e.controller_id === ctl.id);
+      const blocks = dayEvts.map(e => {
+        const left = ((e.start/60) - minH) / hoursSpan * 100;
+        const width = Math.max(0.4, (e.budgeted_min/60) / hoursSpan * 100);
+        const color = colorMap.get(e.controller_id + '|' + e.program_id) || '#4ade80';
+        const isConflict = conflictKey.has(`${day}|${e.controller_id}|${e.program_id}|${e.station_num}|${e.start}`);
+        return `<div class="block ${isConflict?'conflict':''}" style="left:${left}%; width:${width}%; background:${color};"
+          data-link="#/c/${encodeURIComponent(e.controller_id)}/s/${e.station_num}"
+          title="${escapeHtml(e.controller)} · ${escapeHtml(e.program)} · S${e.station_num} ${escapeHtml(e.station_name)} · ${fmtTime12(e.start)}-${fmtTime12(e.end)}">S${e.station_num}</div>`;
+      }).join('');
+      return `
+        <div class="row-grid" title="${escapeHtml(ctl.name)}">
+          <span class="row-label">${escapeHtml(ctl.name)}</span>
+          ${blocks}
+        </div>
+      `;
+    }).join('');
+    return `
+      <div class="day-strip">
+        <div class="day-label" style="${isToday?'color:var(--accent);':''}">${day}${isToday?' · today':''}</div>
+        <div class="hour-axis">${axisLabels.join('')}</div>
+        ${rows}
+      </div>
+    `;
+  }).join('');
+
+  const legendSwatches = [...colorMap.entries()].slice(0, 8).map(([key, color]) => {
+    const [cid, pid] = key.split('|');
+    const ctl = allControllers().find(c => c.id === cid);
+    const prog = ctl ? (ctl.programs||[]).find(p => p.id === pid) : null;
+    return `<span><span class="sw" style="background:${color}"></span>${escapeHtml(ctl?.name||'')} · ${escapeHtml(prog?.name||'')}</span>`;
+  }).join('');
+
+  $('#app').innerHTML = `
+    <div class="container" style="padding-top: 10px; display:flex; justify-content: space-between; align-items:center; gap:8px;">
+      <span class="muted small">${ctlList.length} controllers shown · ${events.length} events / week</span>
+      <button class="btn ghost" id="export-csv" style="padding:6px 12px; font-size:13px;">Export CSV</button>
+    </div>
+    <div class="gantt">
+      <div class="legend">${legendSwatches}<span><span class="sw" style="background:transparent; border:1px solid var(--danger)"></span>conflict</span></div>
+      ${dayHtml}
+    </div>
+  `;
+
+  $$('.gantt .block').forEach(b => b.onclick = () => { location.hash = b.dataset.link; });
+  $('#export-csv').onclick = exportCSV;
+}
+
+// ==================== Conflicts list ====================
+function renderConflicts() {
+  $('#title').textContent = 'Conflicts';
+  const conflicts = detectConflicts(computeEvents(allControllers()));
+  const root = $('#app');
   if (!conflicts.length) {
-    pill.className = 'pill';
-    pill.textContent = `${events.length} runs · clean`;
-  } else {
-    pill.className = 'pill ' + (conflicts.some(c => c.severity === 'danger') ? 'danger' : 'warn');
-    pill.textContent = `${conflicts.length} ${conflicts.length === 1 ? 'conflict' : 'conflicts'}`;
+    root.innerHTML = '<p class="muted container" style="padding-top:14px;">No conflicts. Schedule is clean.</p>';
+    return;
   }
-  // Bottom nav badge
-  const navConflict = $('nav.bottomnav button[data-view="conflicts"]');
-  if (conflicts.length) {
-    navConflict.classList.add('has-conflicts');
-    navConflict.querySelector('.badge').textContent = conflicts.length;
-  } else {
-    navConflict.classList.remove('has-conflicts');
+  root.innerHTML = `
+    <p class="muted container small" style="padding-top:10px;">Showing ${conflicts.length} conflict${conflicts.length===1?'':'s'} across the week. Buffer threshold: ${BUFFER_MIN} min.</p>
+    ${conflicts.map(c => `
+      <div class="conflict-card ${c.severity==='warn'?'warn':''}">
+        <div><strong>${c.overlap>0?`Overlap ${c.overlap}m`:`Gap only ${c.gap}m`}</strong> · ${escapeHtml(c.day.slice(0,3))}</div>
+        <div class="small" style="margin-top:6px;">
+          <a href="#/c/${encodeURIComponent(c.a.controller_id)}/s/${c.a.station_num}" style="color:var(--accent); text-decoration:none;">${escapeHtml(c.a.controller)} · ${escapeHtml(c.a.program)} S${c.a.station_num}</a>
+          <span class="muted">${fmtTime12(c.a.start)}–${fmtTime12(c.a.end)}</span>
+        </div>
+        <div class="small">
+          <a href="#/c/${encodeURIComponent(c.b.controller_id)}/s/${c.b.station_num}" style="color:var(--accent); text-decoration:none;">${escapeHtml(c.b.controller)} · ${escapeHtml(c.b.program)} S${c.b.station_num}</a>
+          <span class="muted">${fmtTime12(c.b.start)}–${fmtTime12(c.b.end)}</span>
+        </div>
+      </div>
+    `).join('')}
+  `;
+}
+
+// ==================== Seasonal checklist ====================
+function renderSeasonalChecklist() {
+  $('#title').textContent = 'Seasonal Checklist';
+  const seasons = STATE.checklist.seasons || {};
+  const keys = Object.keys(seasons);
+  const month = new Date().getMonth();
+  const currentSeason =
+    month >= 2 && month <= 4 ? 'spring' :
+    month >= 5 && month <= 7 ? 'summer' :
+    month >= 8 && month <= 10 ? 'fall' : 'winter';
+  const root = $('#app');
+  if (!keys.length) {
+    root.innerHTML = '<p class="muted container" style="padding-top:14px;">No seasonal tasks defined.</p>';
+    return;
+  }
+  const tabs = keys.map(k => `<button class="day-toggle ${k===currentSeason?'on':''}" data-season="${k}">${k}</button>`).join('');
+  root.innerHTML = `
+    <div class="container" style="padding-top:10px;">
+      <div class="day-toggles">${tabs}</div>
+    </div>
+    <div id="season-body"></div>
+  `;
+  const renderBody = (key) => {
+    const tasks = seasons[key] || [];
+    $('#season-body').innerHTML = tasks.length
+      ? tasks.map((t, i) => `
+          <div class="check-item ${t.done?'done':''}" data-i="${i}">
+            <input type="checkbox" ${t.done?'checked':''}>
+            <span class="label">${escapeHtml(typeof t === 'string' ? t : t.text)}</span>
+          </div>
+        `).join('')
+      : '<p class="muted container" style="padding-top:8px;">No tasks for this season.</p>';
+    $$('.check-item').forEach(el => {
+      el.onclick = () => {
+        const i = +el.dataset.i;
+        const t = tasks[i];
+        if (typeof t === 'string') tasks[i] = { text: t, done: true };
+        else t.done = !t.done;
+        markDirty('checklist');
+        renderBody(key);
+        renderSaveBanner();
+      };
+    });
+  };
+  $$('[data-season]').forEach(b => b.onclick = () => {
+    $$('[data-season]').forEach(x => x.classList.remove('on'));
+    b.classList.add('on');
+    renderBody(b.dataset.season);
+  });
+  renderBody(currentSeason in seasons ? currentSeason : keys[0]);
+}
+
+// ==================== Settings ====================
+function renderSettings() {
+  $('#title').textContent = 'Settings';
+  const ctlMeta = STATE.controllersMeta || {};
+  $('#app').innerHTML = `
+    <div class="container" style="padding-top:12px;">
+      <h3 style="margin:0 0 6px;">GitHub commit</h3>
+      <p class="small muted">Saves write to <strong>${escapeHtml(STATE.repo)}@${escapeHtml(STATE.branch)}</strong> via the GitHub API. Token must be repo-scoped, fine-grained, with Contents write on this one repo only.</p>
+      <label>Personal Access Token</label>
+      <div style="display:flex; gap:8px;">
+        <input type="password" id="f-pat" placeholder="${STATE.pat ? '••••••••••• (set)' : 'ghp_...'}" value="">
+        <button class="btn" id="save-pat">Save</button>
+      </div>
+      ${STATE.pat ? '<button class="btn ghost" id="clear-pat" style="margin-top:8px;">Clear token</button>' : ''}
+
+      <h3 style="margin:20px 0 6px;">Data</h3>
+      <div class="card" style="margin: 0 0 10px;">
+        <div class="small"><strong>controllers.json</strong></div>
+        <div class="small muted">Generated: ${escapeHtml(ctlMeta.generated_at || 'unknown')}</div>
+        <div class="small muted">${escapeHtml(ctlMeta.source || '')}</div>
+      </div>
+      <button class="btn ghost" id="export-csv">Export schedule as CSV</button>
+
+      <h3 style="margin:20px 0 6px;">About</h3>
+      <p class="small muted">Pike Irrigation PWA · field reference + planning. Source: <a href="https://github.com/${STATE.repo}" target="_blank" style="color:var(--accent)">github.com/${STATE.repo}</a></p>
+    </div>
+  `;
+  $('#save-pat').onclick = () => {
+    const v = $('#f-pat').value.trim();
+    if (v) {
+      STATE.pat = v;
+      localStorage.setItem('gh_pat', v);
+      toast('Token saved.');
+      render();
+    }
+  };
+  if ($('#clear-pat')) $('#clear-pat').onclick = () => {
+    STATE.pat = ''; localStorage.removeItem('gh_pat'); toast('Token cleared.'); render();
+  };
+  $('#export-csv').onclick = exportCSV;
+}
+
+// ==================== CSV export ====================
+function exportCSV() {
+  const rows = [['controller','controller_type','program','days','start_times','station_number','zone_name','duration_min','last_verified','notes']];
+  for (const c of allControllers()) {
+    const stationMeta = Object.fromEntries((c.stations || []).map(s => [s.number, s]));
+    for (const p of (c.programs || [])) {
+      const days = (p.days||[]).join(';');
+      const starts = (p.start_times||[]).join(';');
+      for (const s of (p.stations || [])) {
+        const meta = stationMeta[s.number] || {};
+        rows.push([
+          c.name, c.type, p.name, days, starts,
+          s.number, meta.zone_name || s.name || '',
+          s.duration_min || 0,
+          meta.last_verified || '',
+          (meta.notes || '').replace(/\n/g, ' '),
+        ]);
+      }
+    }
+  }
+  const csv = rows.map(r => r.map(v => {
+    const s = String(v ?? '');
+    return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+  }).join(',')).join('\n');
+  const blob = new Blob([csv], {type: 'text/csv'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `pike-irrigation-${todayISO()}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ==================== Save (GitHub commit) ====================
+async function saveChanges() {
+  if (!STATE.pat) {
+    if (confirm('No GitHub token set. Open Settings?')) navigate('/settings');
+    return;
+  }
+  const btn = $('#save-btn');
+  btn.disabled = true;
+  btn.textContent = 'Saving…';
+  try {
+    const tasks = [];
+    if (STATE.dirty.controllers) {
+      tasks.push(commitFile('data/controllers.json', JSON.stringify({
+        generated_at: STATE.controllersMeta.generated_at,
+        source: STATE.controllersMeta.source,
+        controllers: STATE.controllers,
+      }, null, 2)));
+    }
+    if (STATE.dirty.rainbird) {
+      tasks.push(commitFile('data/rainbird.json', JSON.stringify({
+        _comment: STATE.rainbirdMeta._comment,
+        generated_at: STATE.rainbirdMeta.generated_at,
+        source: STATE.rainbirdMeta.source,
+        controllers: STATE.rainbird,
+      }, null, 2)));
+    }
+    if (STATE.dirty.checklist) {
+      tasks.push(commitFile('data/checklist.json', JSON.stringify(STATE.checklist, null, 2)));
+    }
+    await Promise.all(tasks);
+    STATE.dirty = { controllers: false, rainbird: false, checklist: false };
+    toast('Saved. GH Pages rebuild ~1 min.');
+    renderSaveBanner();
+  } catch (e) {
+    console.error(e);
+    toast('Save failed: ' + (e.message || e), true);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Save';
   }
 }
 
-// ==================== Routing / render ====================
-let CURRENT_VIEW = 'today';
-function showView(name) {
-  CURRENT_VIEW = name;
-  $$('section.view').forEach(s => s.classList.toggle('active', s.id === `${name}-view`));
-  $$('nav.bottomnav button').forEach(b => b.classList.toggle('active', b.dataset.view === name));
-  if (name === 'today') renderToday();
-  else if (name === 'conflicts') renderConflicts();
-  else if (name === 'controllers') renderControllers();
-  else if (name === 'checklist') renderChecklist();
+async function commitFile(path, content) {
+  // GET current SHA
+  const getUrl = `https://api.github.com/repos/${STATE.repo}/contents/${path}?ref=${STATE.branch}`;
+  const getRes = await fetch(getUrl, {
+    headers: { 'Authorization': `Bearer ${STATE.pat}`, 'Accept': 'application/vnd.github+json' }
+  });
+  let sha;
+  if (getRes.ok) {
+    const j = await getRes.json();
+    sha = j.sha;
+  } else if (getRes.status !== 404) {
+    throw new Error(`GET ${path}: ${getRes.status}`);
+  }
+  // PUT new content (base64)
+  const b64 = btoa(unescape(encodeURIComponent(content)));
+  const putUrl = `https://api.github.com/repos/${STATE.repo}/contents/${path}`;
+  const putRes = await fetch(putUrl, {
+    method: 'PUT',
+    headers: { 'Authorization': `Bearer ${STATE.pat}`, 'Accept': 'application/vnd.github+json', 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      message: `data: edit ${path.split('/').pop()} via app`,
+      content: b64,
+      sha,
+      branch: STATE.branch,
+    }),
+  });
+  if (!putRes.ok) {
+    const t = await putRes.text();
+    throw new Error(`PUT ${path}: ${putRes.status} ${t.slice(0,200)}`);
+  }
 }
 
-document.querySelectorAll('nav.bottomnav button').forEach(b => {
-  b.addEventListener('click', () => showView(b.dataset.view));
-});
-
-// Date / clock
-function updateClock() {
-  const d = new Date();
-  $('#dateLabel').textContent = d.toLocaleDateString(undefined, { weekday:'short', month:'short', day:'numeric' });
-  $('#clockLabel').textContent = d.toLocaleTimeString(undefined, { hour:'numeric', minute:'2-digit' });
+// ==================== Toast ====================
+let toastTimer;
+function toast(msg, isErr=false) {
+  const t = $('#toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (isErr ? ' err' : '');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2500);
 }
-updateClock(); setInterval(updateClock, 30000);
 
-// Initial load
-loadData().then(() => {
-  updateHeaderPills();
-  showView('today');
-}).catch(err => {
-  $('#today-view').innerHTML = `<div class="loading">Failed to load data: ${escapeHtml(err.message)}<br><br>If you opened this from <code>file://</code>, host it via GitHub Pages or run <code>python3 -m http.server</code> in the folder.</div>`;
-});
+// ==================== Boot ====================
+(async function() {
+  await loadData();
+  render();
+})();
 
 // Service worker
 if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
   navigator.serviceWorker.register('sw.js').catch(()=>{});
 }
 </script>
+
+<footer class="app">
+  <span id="footer-meta"></span>
+</footer>
+
 </body>
 </html>

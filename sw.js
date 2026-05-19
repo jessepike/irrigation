@@ -1,5 +1,5 @@
 // Minimal cache-first service worker so the app works offline once installed.
-const VERSION = 'pike-irrig-v1';
+const VERSION = 'pike-irrig-v2';
 const ASSETS = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', (e) => {

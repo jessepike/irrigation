@@ -1,4 +1,5 @@
 const { JSDOM, VirtualConsole } = require('jsdom');
+const fs = require('fs');
 
 const errors = [];
 const vc = new VirtualConsole();
@@ -6,30 +7,56 @@ vc.on('jsdomError', e => errors.push(e));
 vc.on('error', e => errors.push(e));
 
 (async () => {
-  const dom = await JSDOM.fromURL('http://localhost:8771/', {
+  const html = fs.readFileSync('index.html', 'utf8');
+  const dom = new JSDOM(html, {
+    url: 'http://localhost:8771/',
     runScripts: 'dangerously',
     pretendToBeVisual: true,
     virtualConsole: vc,
     resources: 'usable',
+    beforeParse(window) {
+      window.fetch = (url, opts) => globalThis.fetch(
+        String(url).startsWith('http') ? url : 'http://localhost:8771/' + String(url).replace(/^\.?\//,''),
+        opts
+      );
+    },
   });
   const { window } = dom;
   window.addEventListener('error', e => errors.push(e.error || e));
 
-  // Wait for fetches with retry
   let tries = 0;
   while (tries < 30) {
     await new Promise(r => setTimeout(r, 200));
-    const events = window.document.querySelectorAll('#today-view .event');
-    if (events.length > 0) break;
+    if (window.document.querySelectorAll('.row-link').length > 0) break;
     tries++;
   }
-  console.log(`Polled for events: ${tries} ticks`);
-  if (errors.length) console.log('Errors:', errors.map(e => e.message || String(e)));
-
   const doc = window.document;
-  console.log('Pill:', JSON.stringify(doc.querySelector('#conflictPill').textContent.trim()));
-  console.log('Today events:', doc.querySelectorAll('#today-view .event').length);
-  console.log('Data info:', doc.querySelector('#dataInfo')?.textContent.trim() || '(empty)');
-  console.log('Today view innerHTML head:', doc.querySelector('#today-view').innerHTML.slice(0, 200));
+  const log = (s) => console.log(s);
+
+  log('--- Boot ---');
+  log(`Controllers visible: ${doc.querySelectorAll('.row-link').length}`);
+  log(`Title: ${doc.querySelector('#title')?.textContent.trim()}`);
+  log(`Conflict pill: ${doc.querySelector('#conflict-pill')?.style.display === 'none' ? '(hidden)' : doc.querySelector('#conflict-pill')?.textContent.trim()}`);
+
+  const routes = [
+    ['#/week', '.day-strip', 'day strips'],
+    ['#/c/island', '.station-row', 'station rows'],
+    ['#/c/island/s/1', '#f-zone', 'zone input'],
+    ['#/conflicts', '.conflict-card', 'conflict cards'],
+    ['#/settings', '#f-pat', 'PAT input'],
+  ];
+  for (const [hash, sel, label] of routes) {
+    window.location.hash = hash;
+    await new Promise(r => setTimeout(r, 150));
+    const n = doc.querySelectorAll(sel).length;
+    log(`${hash} → ${n} ${label}`);
+  }
+
+  if (errors.length) {
+    log('--- ERRORS ---');
+    for (const e of errors) log(e.message || String(e));
+    process.exit(1);
+  }
+  log('--- No errors ---');
   process.exit(0);
-})();
+})().catch(e => { console.error('rt.js failed:', e); process.exit(2); });
