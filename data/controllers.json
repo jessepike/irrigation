@@ -4,7 +4,7 @@
   "controllers": [
     {
       "id": "front-lawn-4",
-      "name": "Front-Lawn-4",
+      "name": "Front Lawn",
       "type": "krain",
       "programs": [
         {
@@ -52,7 +52,7 @@
       "stations": [
         {
           "number": 1,
-          "zone_name": "Station 1",
+          "zone_name": "Front Lawn 1",
           "last_verified": "",
           "notes": "",
           "checklist": [
@@ -64,7 +64,7 @@
         },
         {
           "number": 2,
-          "zone_name": "Station 2",
+          "zone_name": "Front Lawn 2",
           "last_verified": "",
           "notes": "",
           "checklist": [
@@ -76,7 +76,7 @@
         },
         {
           "number": 3,
-          "zone_name": "Station 3",
+          "zone_name": "Front Lawn 3",
           "last_verified": "",
           "notes": "",
           "checklist": [
@@ -88,7 +88,7 @@
         },
         {
           "number": 4,
-          "zone_name": "Station 4",
+          "zone_name": "Front Lawn 4",
           "last_verified": "",
           "notes": "",
           "checklist": [
@@ -135,7 +135,7 @@
       "stations": [
         {
           "number": 1,
-          "zone_name": "Rotors",
+          "zone_name": "Garden Lawn 3",
           "last_verified": "",
           "notes": "",
           "checklist": [
@@ -149,7 +149,7 @@
     },
     {
       "id": "garden-lawn-1",
-      "name": "Garden lawn 1",
+      "name": "Garden Lawn 1",
       "type": "krain",
       "programs": [
         {
@@ -187,7 +187,7 @@
       "stations": [
         {
           "number": 1,
-          "zone_name": "Station 1",
+          "zone_name": "Garden Lawn 1 S1",
           "last_verified": "",
           "notes": "",
           "checklist": [
@@ -199,7 +199,7 @@
         },
         {
           "number": 2,
-          "zone_name": "Station 2",
+          "zone_name": "Garden Lawn 1 S2",
           "last_verified": "",
           "notes": "",
           "checklist": [
@@ -213,7 +213,7 @@
     },
     {
       "id": "garden-lawn-2",
-      "name": "Garden-Lawn-2",
+      "name": "Garden Lawn 2",
       "type": "krain",
       "programs": [
         {
@@ -251,7 +251,7 @@
       "stations": [
         {
           "number": 1,
-          "zone_name": "Station 1",
+          "zone_name": "Garden Lawn 2 S1",
           "last_verified": "",
           "notes": "",
           "checklist": [
@@ -263,7 +263,7 @@
         },
         {
           "number": 2,
-          "zone_name": "Station 2",
+          "zone_name": "Garden Lawn 2 S2",
           "last_verified": "",
           "notes": "",
           "checklist": [
@@ -366,7 +366,7 @@
       "stations": [
         {
           "number": 1,
-          "zone_name": "Station 1",
+          "zone_name": "Island S1",
           "last_verified": "",
           "notes": "",
           "checklist": [
@@ -378,7 +378,7 @@
         },
         {
           "number": 2,
-          "zone_name": "Station 2",
+          "zone_name": "Island S2",
           "last_verified": "",
           "notes": "",
           "checklist": [
@@ -390,7 +390,7 @@
         },
         {
           "number": 3,
-          "zone_name": "Station 3",
+          "zone_name": "Island S3",
           "last_verified": "",
           "notes": "",
           "checklist": [
@@ -402,7 +402,7 @@
         },
         {
           "number": 4,
-          "zone_name": "Station 4",
+          "zone_name": "Island S4",
           "last_verified": "",
           "notes": "",
           "checklist": [

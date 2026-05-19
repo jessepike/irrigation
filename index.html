@@ -832,6 +832,14 @@ function renderConflicts() {
 }
 
 // ==================== Seasonal checklist ====================
+// Per-instance done state lives in localStorage keyed by (year, season).
+// Items have scope: global | controller | zone — expand into instances on render.
+function seasonStateKey() { return `checklist_${new Date().getFullYear()}`; }
+function loadSeasonState() {
+  try { return JSON.parse(localStorage.getItem(seasonStateKey()) || '{}'); } catch { return {}; }
+}
+function saveSeasonState(s) { localStorage.setItem(seasonStateKey(), JSON.stringify(s)); }
+
 function renderSeasonalChecklist() {
   $('#title').textContent = 'Seasonal Checklist';
   const seasons = STATE.checklist.seasons || {};
@@ -846,32 +854,79 @@ function renderSeasonalChecklist() {
     root.innerHTML = '<p class="muted container" style="padding-top:14px;">No seasonal tasks defined.</p>';
     return;
   }
-  const tabs = keys.map(k => `<button class="day-toggle ${k===currentSeason?'on':''}" data-season="${k}">${k}</button>`).join('');
+  const tabs = keys.map(k => {
+    const s = seasons[k];
+    const label = (s.icon ? s.icon + ' ' : '') + (s.label || k);
+    return `<button class="day-toggle ${k===currentSeason?'on':''}" data-season="${k}">${escapeHtml(label)}</button>`;
+  }).join('');
   root.innerHTML = `
     <div class="container" style="padding-top:10px;">
       <div class="day-toggles">${tabs}</div>
+      <div class="small muted" style="margin-top:6px;">State tracked per device for ${new Date().getFullYear()}. Resets next year automatically.</div>
     </div>
     <div id="season-body"></div>
   `;
+
   const renderBody = (key) => {
-    const tasks = seasons[key] || [];
-    $('#season-body').innerHTML = tasks.length
-      ? tasks.map((t, i) => `
-          <div class="check-item ${t.done?'done':''}" data-i="${i}">
-            <input type="checkbox" ${t.done?'checked':''}>
-            <span class="label">${escapeHtml(typeof t === 'string' ? t : t.text)}</span>
+    const season = seasons[key] || {};
+    const items = season.items || [];
+    const state = loadSeasonState();
+    state[key] = state[key] || {};
+    const seasonState = state[key];
+
+    // Expand: build instances per scope
+    const instances = [];
+    for (const item of items) {
+      if (item.scope === 'global' || !item.scope) {
+        instances.push({ item, instanceKey: item.id, label: item.text });
+      } else if (item.scope === 'controller') {
+        for (const c of allControllers()) {
+          instances.push({ item, instanceKey: `${item.id}:${c.id}`, label: `${item.text} — ${c.name}` });
+        }
+      } else if (item.scope === 'zone') {
+        for (const c of allControllers()) {
+          for (const s of (c.stations || [])) {
+            instances.push({ item, instanceKey: `${item.id}:${c.id}:${s.number}`, label: `${item.text} — ${s.zone_name || c.name + ' S' + s.number}` });
+          }
+        }
+      }
+    }
+
+    if (!instances.length) {
+      $('#season-body').innerHTML = '<p class="muted container" style="padding-top:8px;">No tasks for this season.</p>';
+      return;
+    }
+
+    // Group by scope for readability
+    const groups = { global: [], controller: [], zone: [] };
+    for (const inst of instances) groups[inst.item.scope || 'global'].push(inst);
+
+    const groupHtml = (title, list) => {
+      if (!list.length) return '';
+      const doneN = list.filter(i => seasonState[i.instanceKey]).length;
+      return `
+        <h3 style="margin:14px 14px 6px;">${escapeHtml(title)} <span class="muted small" style="font-weight:400;">${doneN}/${list.length}</span></h3>
+        ${list.map(inst => `
+          <div class="check-item ${seasonState[inst.instanceKey]?'done':''}" data-key="${escapeHtml(inst.instanceKey)}">
+            <input type="checkbox" ${seasonState[inst.instanceKey]?'checked':''}>
+            <span class="label">${escapeHtml(inst.label)}</span>
           </div>
-        `).join('')
-      : '<p class="muted container" style="padding-top:8px;">No tasks for this season.</p>';
+        `).join('')}
+      `;
+    };
+
+    $('#season-body').innerHTML =
+      groupHtml('Property-wide', groups.global) +
+      groupHtml('Per controller', groups.controller) +
+      groupHtml('Per zone', groups.zone);
+
     $$('.check-item').forEach(el => {
       el.onclick = () => {
-        const i = +el.dataset.i;
-        const t = tasks[i];
-        if (typeof t === 'string') tasks[i] = { text: t, done: true };
-        else t.done = !t.done;
-        markDirty('checklist');
+        const k = el.dataset.key;
+        seasonState[k] = !seasonState[k];
+        state[key] = seasonState;
+        saveSeasonState(state);
         renderBody(key);
-        renderSaveBanner();
       };
     });
   };
