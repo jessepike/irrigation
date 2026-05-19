@@ -40,6 +40,44 @@ from datetime import datetime
 from pathlib import Path
 from collections import defaultdict
 
+DEFAULT_CHECK = [{"text": "Heads aligned / No mist / No leaks / Coverage even / Pressure OK", "done": False}]
+
+
+def load_existing_station_registry(out_path):
+    """Return {controller_id: {station_num: station_dict}} from existing JSON so user edits survive regen."""
+    p = Path(out_path)
+    if not p.exists():
+        return {}
+    try:
+        data = json.loads(p.read_text())
+    except Exception:
+        return {}
+    return {
+        c['id']: {s['number']: s for s in c.get('stations', [])}
+        for c in data.get('controllers', [])
+    }
+
+
+def build_station_registry(programs, preserved):
+    """Dedup physical stations across programs; preserve user fields from `preserved` dict."""
+    physical = {}
+    for prog in programs:
+        for s in prog.get('stations', []):
+            n = s['number']
+            if n not in physical:
+                physical[n] = s.get('name', f'Station {n}')
+    registry = []
+    for num in sorted(physical):
+        prev = preserved.get(num, {})
+        registry.append({
+            'number': num,
+            'zone_name': prev.get('zone_name', physical[num]),
+            'last_verified': prev.get('last_verified', ''),
+            'notes': prev.get('notes', ''),
+            'checklist': prev.get('checklist', [dict(c) for c in DEFAULT_CHECK]),
+        })
+    return registry
+
 
 def slugify(s):
     return re.sub(r'[^a-z0-9]+', '-', s.lower()).strip('-')
@@ -69,6 +107,8 @@ def main():
     if not rows:
         print('No rows found', file=sys.stderr)
         sys.exit(1)
+
+    preserved = load_existing_station_registry(args.out)
 
     # Group: controller -> program -> { meta, start_times: set, stations: ordered list w/ duration per (start_time, station_number) }
     # Important: duration can theoretically vary across start_times of the same program, but in practice K-Rain shows one duration per (program, station). We'll verify.
@@ -131,6 +171,7 @@ def main():
             prog['start_times'] = sorted(prog['start_times'])
             del prog['_stations_obs']
         ctl['programs'] = sorted(ctl['programs'].values(), key=lambda p: p['name'])
+        ctl['stations'] = build_station_registry(ctl['programs'], preserved.get(ctl['id'], {}))
 
     output = {
         'generated_at': datetime.now().isoformat(timespec='seconds'),

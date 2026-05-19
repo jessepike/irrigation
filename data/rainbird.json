@@ -5,18 +5,27 @@
       "id": "rainbird-tbos-1",
       "name": "Rainbird TBOS #1",
       "type": "rainbird",
-      "notes": "Placeholder — replace with real schedule",
+      "notes": "Placeholder \u2014 replace with real schedule",
       "programs": [
         {
           "id": "rainbird-tbos-1__a",
           "name": "Program A",
           "calendar": "Custom",
-          "days": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+          "days": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+          ],
           "water_budget": 100,
           "start_times": [],
           "stations": []
         }
-      ]
+      ],
+      "stations": []
     },
     {
       "id": "rainbird-tbos-2",
@@ -28,12 +37,21 @@
           "id": "rainbird-tbos-2__a",
           "name": "Program A",
           "calendar": "Custom",
-          "days": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+          "days": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+          ],
           "water_budget": 100,
           "start_times": [],
           "stations": []
         }
-      ]
+      ],
+      "stations": []
     },
     {
       "id": "rainbird-tbos-3",
@@ -45,12 +63,21 @@
           "id": "rainbird-tbos-3__a",
           "name": "Program A",
           "calendar": "Custom",
-          "days": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+          "days": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+          ],
           "water_budget": 100,
           "start_times": [],
           "stations": []
         }
-      ]
+      ],
+      "stations": []
     }
   ]
 }

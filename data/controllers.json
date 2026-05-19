@@ -48,6 +48,56 @@
             }
           ]
         }
+      ],
+      "stations": [
+        {
+          "number": 1,
+          "zone_name": "Station 1",
+          "last_verified": "",
+          "notes": "",
+          "checklist": [
+            {
+              "text": "Heads aligned / No mist / No leaks / Coverage even / Pressure OK",
+              "done": false
+            }
+          ]
+        },
+        {
+          "number": 2,
+          "zone_name": "Station 2",
+          "last_verified": "",
+          "notes": "",
+          "checklist": [
+            {
+              "text": "Heads aligned / No mist / No leaks / Coverage even / Pressure OK",
+              "done": false
+            }
+          ]
+        },
+        {
+          "number": 3,
+          "zone_name": "Station 3",
+          "last_verified": "",
+          "notes": "",
+          "checklist": [
+            {
+              "text": "Heads aligned / No mist / No leaks / Coverage even / Pressure OK",
+              "done": false
+            }
+          ]
+        },
+        {
+          "number": 4,
+          "zone_name": "Station 4",
+          "last_verified": "",
+          "notes": "",
+          "checklist": [
+            {
+              "text": "Heads aligned / No mist / No leaks / Coverage even / Pressure OK",
+              "done": false
+            }
+          ]
+        }
       ]
     },
     {
@@ -78,6 +128,20 @@
               "number": 1,
               "name": "Rotors",
               "duration_min": 20
+            }
+          ]
+        }
+      ],
+      "stations": [
+        {
+          "number": 1,
+          "zone_name": "Rotors",
+          "last_verified": "",
+          "notes": "",
+          "checklist": [
+            {
+              "text": "Heads aligned / No mist / No leaks / Coverage even / Pressure OK",
+              "done": false
             }
           ]
         }
@@ -119,6 +183,32 @@
             }
           ]
         }
+      ],
+      "stations": [
+        {
+          "number": 1,
+          "zone_name": "Station 1",
+          "last_verified": "",
+          "notes": "",
+          "checklist": [
+            {
+              "text": "Heads aligned / No mist / No leaks / Coverage even / Pressure OK",
+              "done": false
+            }
+          ]
+        },
+        {
+          "number": 2,
+          "zone_name": "Station 2",
+          "last_verified": "",
+          "notes": "",
+          "checklist": [
+            {
+              "text": "Heads aligned / No mist / No leaks / Coverage even / Pressure OK",
+              "done": false
+            }
+          ]
+        }
       ]
     },
     {
@@ -154,6 +244,32 @@
               "number": 2,
               "name": "Station 2",
               "duration_min": 0
+            }
+          ]
+        }
+      ],
+      "stations": [
+        {
+          "number": 1,
+          "zone_name": "Station 1",
+          "last_verified": "",
+          "notes": "",
+          "checklist": [
+            {
+              "text": "Heads aligned / No mist / No leaks / Coverage even / Pressure OK",
+              "done": false
+            }
+          ]
+        },
+        {
+          "number": 2,
+          "zone_name": "Station 2",
+          "last_verified": "",
+          "notes": "",
+          "checklist": [
+            {
+              "text": "Heads aligned / No mist / No leaks / Coverage even / Pressure OK",
+              "done": false
             }
           ]
         }
@@ -243,6 +359,56 @@
               "number": 4,
               "name": "Station 4",
               "duration_min": 0
+            }
+          ]
+        }
+      ],
+      "stations": [
+        {
+          "number": 1,
+          "zone_name": "Station 1",
+          "last_verified": "",
+          "notes": "",
+          "checklist": [
+            {
+              "text": "Heads aligned / No mist / No leaks / Coverage even / Pressure OK",
+              "done": false
+            }
+          ]
+        },
+        {
+          "number": 2,
+          "zone_name": "Station 2",
+          "last_verified": "",
+          "notes": "",
+          "checklist": [
+            {
+              "text": "Heads aligned / No mist / No leaks / Coverage even / Pressure OK",
+              "done": false
+            }
+          ]
+        },
+        {
+          "number": 3,
+          "zone_name": "Station 3",
+          "last_verified": "",
+          "notes": "",
+          "checklist": [
+            {
+              "text": "Heads aligned / No mist / No leaks / Coverage even / Pressure OK",
+              "done": false
+            }
+          ]
+        },
+        {
+          "number": 4,
+          "zone_name": "Station 4",
+          "last_verified": "",
+          "notes": "",
+          "checklist": [
+            {
+              "text": "Heads aligned / No mist / No leaks / Coverage even / Pressure OK",
+              "done": false
             }
           ]
         }
