@@ -1,14 +1,15 @@
 {
-  "_comment": "Stub for the 3 Rainbird TBOS controllers. Fill in real data when you next walk the controllers, or as you phase them out replace this with empty list.",
+  "_comment": "3 older Rainbird TBOS controllers, grouped by physical area. Source: Pike - Watering Schedule.csv. Edit via app (Settings -> PAT, then edit station/program).",
+  "generated_at": "2026-05-19T00:00:00",
+  "source": "Pike - Watering Schedule.csv (manually grouped by area)",
   "controllers": [
     {
-      "id": "rainbird-tbos-1",
-      "name": "Rainbird TBOS #1",
+      "id": "tbos-back",
+      "name": "TBOS Back",
       "type": "rainbird",
-      "notes": "Placeholder \u2014 replace with real schedule",
       "programs": [
         {
-          "id": "rainbird-tbos-1__a",
+          "id": "tbos-back__a",
           "name": "Program A",
           "calendar": "Custom",
           "days": [
@@ -21,21 +22,95 @@
             "Sunday"
           ],
           "water_budget": 100,
-          "start_times": [],
-          "stations": []
+          "start_times": [
+            "10:00"
+          ],
+          "stations": [
+            {
+              "number": 1,
+              "name": "Back Lawn",
+              "duration_min": 30
+            },
+            {
+              "number": 2,
+              "name": "Back Hillside Lawn 1",
+              "duration_min": 45
+            }
+          ]
+        },
+        {
+          "id": "tbos-back__b",
+          "name": "Program B",
+          "calendar": "Custom",
+          "days": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+          ],
+          "water_budget": 100,
+          "start_times": [
+            "11:15"
+          ],
+          "stations": [
+            {
+              "number": 3,
+              "name": "Back Lawn Beds Drip",
+              "duration_min": 45
+            }
+          ]
         }
       ],
-      "stations": []
+      "stations": [
+        {
+          "number": 1,
+          "zone_name": "Back Lawn",
+          "last_verified": "",
+          "notes": "",
+          "checklist": [
+            {
+              "text": "Heads aligned / No mist / No leaks / Coverage even / Pressure OK",
+              "done": false
+            }
+          ]
+        },
+        {
+          "number": 2,
+          "zone_name": "Back Hillside Lawn 1",
+          "last_verified": "",
+          "notes": "",
+          "checklist": [
+            {
+              "text": "Heads aligned / No mist / No leaks / Coverage even / Pressure OK",
+              "done": false
+            }
+          ]
+        },
+        {
+          "number": 3,
+          "zone_name": "Back Lawn Beds Drip",
+          "last_verified": "",
+          "notes": "",
+          "checklist": [
+            {
+              "text": "Heads aligned / No mist / No leaks / Coverage even / Pressure OK",
+              "done": false
+            }
+          ]
+        }
+      ]
     },
     {
-      "id": "rainbird-tbos-2",
-      "name": "Rainbird TBOS #2",
+      "id": "tbos-side",
+      "name": "TBOS Side",
       "type": "rainbird",
-      "notes": "Placeholder",
       "programs": [
         {
-          "id": "rainbird-tbos-2__a",
-          "name": "Program A",
+          "id": "tbos-side__a",
+          "name": "Program A (afternoon)",
           "calendar": "Custom",
           "days": [
             "Monday",
@@ -47,21 +122,132 @@
             "Sunday"
           ],
           "water_budget": 100,
-          "start_times": [],
-          "stations": []
+          "start_times": [
+            "14:45"
+          ],
+          "stations": [
+            {
+              "number": 1,
+              "name": "Side Hillside Trees Drip",
+              "duration_min": 60
+            }
+          ]
+        },
+        {
+          "id": "tbos-side__b",
+          "name": "Program B (evening)",
+          "calendar": "Custom",
+          "days": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+          ],
+          "water_budget": 100,
+          "start_times": [
+            "22:00"
+          ],
+          "stations": [
+            {
+              "number": 2,
+              "name": "Side Lawn 1",
+              "duration_min": 30
+            },
+            {
+              "number": 3,
+              "name": "Back Hillside Lawn 2",
+              "duration_min": 45
+            }
+          ]
+        },
+        {
+          "id": "tbos-side__c",
+          "name": "Program C (drip)",
+          "calendar": "Custom",
+          "days": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+          ],
+          "water_budget": 100,
+          "start_times": [
+            "23:15"
+          ],
+          "stations": [
+            {
+              "number": 4,
+              "name": "Side Back Bed Drip",
+              "duration_min": 30
+            }
+          ]
         }
       ],
-      "stations": []
+      "stations": [
+        {
+          "number": 1,
+          "zone_name": "Side Hillside Trees Drip",
+          "last_verified": "",
+          "notes": "",
+          "checklist": [
+            {
+              "text": "Heads aligned / No mist / No leaks / Coverage even / Pressure OK",
+              "done": false
+            }
+          ]
+        },
+        {
+          "number": 2,
+          "zone_name": "Side Lawn 1",
+          "last_verified": "",
+          "notes": "",
+          "checklist": [
+            {
+              "text": "Heads aligned / No mist / No leaks / Coverage even / Pressure OK",
+              "done": false
+            }
+          ]
+        },
+        {
+          "number": 3,
+          "zone_name": "Back Hillside Lawn 2",
+          "last_verified": "",
+          "notes": "",
+          "checklist": [
+            {
+              "text": "Heads aligned / No mist / No leaks / Coverage even / Pressure OK",
+              "done": false
+            }
+          ]
+        },
+        {
+          "number": 4,
+          "zone_name": "Side Back Bed Drip",
+          "last_verified": "",
+          "notes": "",
+          "checklist": [
+            {
+              "text": "Heads aligned / No mist / No leaks / Coverage even / Pressure OK",
+              "done": false
+            }
+          ]
+        }
+      ]
     },
     {
-      "id": "rainbird-tbos-3",
-      "name": "Rainbird TBOS #3",
+      "id": "tbos-garden-front",
+      "name": "TBOS Garden/Front",
       "type": "rainbird",
-      "notes": "Placeholder",
       "programs": [
         {
-          "id": "rainbird-tbos-3__a",
-          "name": "Program A",
+          "id": "tbos-garden-front__a",
+          "name": "Program A (garden trees)",
           "calendar": "Custom",
           "days": [
             "Monday",
@@ -73,11 +259,106 @@
             "Sunday"
           ],
           "water_budget": 100,
-          "start_times": [],
-          "stations": []
+          "start_times": [
+            "12:00"
+          ],
+          "stations": [
+            {
+              "number": 1,
+              "name": "Garden Trees Drip",
+              "duration_min": 60
+            }
+          ]
+        },
+        {
+          "id": "tbos-garden-front__b",
+          "name": "Program B (side lawn 2)",
+          "calendar": "Custom",
+          "days": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+          ],
+          "water_budget": 100,
+          "start_times": [
+            "23:45"
+          ],
+          "stations": [
+            {
+              "number": 2,
+              "name": "Side Lawn 2",
+              "duration_min": 30
+            }
+          ]
+        },
+        {
+          "id": "tbos-garden-front__c",
+          "name": "Program C (front bed drip)",
+          "calendar": "Custom",
+          "days": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+          ],
+          "water_budget": 100,
+          "start_times": [
+            "00:15"
+          ],
+          "stations": [
+            {
+              "number": 3,
+              "name": "Side Front Bed Drip",
+              "duration_min": 45
+            }
+          ]
         }
       ],
-      "stations": []
+      "stations": [
+        {
+          "number": 1,
+          "zone_name": "Garden Trees Drip",
+          "last_verified": "",
+          "notes": "",
+          "checklist": [
+            {
+              "text": "Heads aligned / No mist / No leaks / Coverage even / Pressure OK",
+              "done": false
+            }
+          ]
+        },
+        {
+          "number": 2,
+          "zone_name": "Side Lawn 2",
+          "last_verified": "",
+          "notes": "",
+          "checklist": [
+            {
+              "text": "Heads aligned / No mist / No leaks / Coverage even / Pressure OK",
+              "done": false
+            }
+          ]
+        },
+        {
+          "number": 3,
+          "zone_name": "Side Front Bed Drip",
+          "last_verified": "",
+          "notes": "",
+          "checklist": [
+            {
+              "text": "Heads aligned / No mist / No leaks / Coverage even / Pressure OK",
+              "done": false
+            }
+          ]
+        }
+      ]
     }
   ]
 }
