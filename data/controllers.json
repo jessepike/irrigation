@@ -21,19 +21,19 @@
             "Saturday",
             "Sunday"
           ],
-          "water_budget": 100,
+          "water_budget": 80,
           "start_times": [
-            "03:30"
+            "04:30"
           ],
           "stations": [
             {
               "number": 1,
-              "name": "Front Garage Rotors",
+              "name": "Station 1",
               "duration_min": 45
             },
             {
               "number": 2,
-              "name": "Front Garage Drip",
+              "name": "Station 2",
               "duration_min": 45
             }
           ]
@@ -72,8 +72,8 @@
       "type": "krain",
       "programs": [
         {
-          "id": "front-lawn-4__rotors",
-          "name": "Rotors",
+          "id": "front-lawn-4__a",
+          "name": "Program A",
           "calendar": "Custom",
           "days": [
             "Monday",
@@ -84,31 +84,25 @@
             "Saturday",
             "Sunday"
           ],
-          "water_budget": 100,
+          "water_budget": 80,
           "start_times": [
-            "02:00",
-            "14:45"
+            "00:30"
           ],
           "stations": [
             {
               "number": 1,
               "name": "Station 1",
-              "duration_min": 20
+              "duration_min": 60
             },
             {
               "number": 2,
               "name": "Station 2",
-              "duration_min": 20
+              "duration_min": 60
             },
             {
               "number": 3,
               "name": "Station 3",
-              "duration_min": 20
-            },
-            {
-              "number": 4,
-              "name": "Station 4",
-              "duration_min": 20
+              "duration_min": 60
             }
           ]
         }
@@ -149,18 +143,6 @@
               "done": false
             }
           ]
-        },
-        {
-          "number": 4,
-          "zone_name": "Front Lawn 4 S4",
-          "last_verified": "",
-          "notes": "",
-          "checklist": [
-            {
-              "text": "Heads aligned / No mist / No leaks / Coverage even / Pressure OK",
-              "done": false
-            }
-          ]
         }
       ],
       "generation": "gen1"
@@ -171,8 +153,8 @@
       "type": "krain",
       "programs": [
         {
-          "id": "garden-lawn-1__rotors",
-          "name": "Rotors",
+          "id": "garden-lawn-1__a",
+          "name": "Program A",
           "calendar": "Custom",
           "days": [
             "Monday",
@@ -183,21 +165,20 @@
             "Saturday",
             "Sunday"
           ],
-          "water_budget": 100,
+          "water_budget": 80,
           "start_times": [
-            "04:45",
-            "18:45"
+            "20:15"
           ],
           "stations": [
             {
               "number": 1,
               "name": "Station 1",
-              "duration_min": 15
+              "duration_min": 45
             },
             {
               "number": 2,
               "name": "Station 2",
-              "duration_min": 0
+              "duration_min": 45
             }
           ]
         }
@@ -236,8 +217,8 @@
       "type": "krain",
       "programs": [
         {
-          "id": "garden-lawn-2__rotors",
-          "name": "Rotors",
+          "id": "garden-lawn-2__a",
+          "name": "Program A",
           "calendar": "Custom",
           "days": [
             "Monday",
@@ -248,21 +229,20 @@
             "Saturday",
             "Sunday"
           ],
-          "water_budget": 100,
+          "water_budget": 80,
           "start_times": [
-            "09:45",
-            "16:30"
+            "21:00"
           ],
           "stations": [
             {
               "number": 1,
               "name": "Station 1",
-              "duration_min": 20
+              "duration_min": 60
             },
             {
               "number": 2,
               "name": "Station 2",
-              "duration_min": 0
+              "duration_min": 60
             }
           ]
         }
@@ -301,8 +281,8 @@
       "type": "krain",
       "programs": [
         {
-          "id": "garden-lawn-3__rotors",
-          "name": "Rotors",
+          "id": "garden-lawn-3__a",
+          "name": "Program A",
           "calendar": "Custom",
           "days": [
             "Monday",
@@ -313,16 +293,15 @@
             "Saturday",
             "Sunday"
           ],
-          "water_budget": 100,
+          "water_budget": 80,
           "start_times": [
-            "09:15",
-            "17:00"
+            "13:15"
           ],
           "stations": [
             {
               "number": 1,
-              "name": "Rotors",
-              "duration_min": 20
+              "name": "Station 1",
+              "duration_min": 60
             }
           ]
         }
@@ -413,8 +392,8 @@
       "type": "krain",
       "programs": [
         {
-          "id": "island__lower-sprays",
-          "name": "Lower Sprays",
+          "id": "island__a",
+          "name": "Program A",
           "calendar": "Custom",
           "days": [
             "Monday",
@@ -427,70 +406,18 @@
           ],
           "water_budget": 100,
           "start_times": [
-            "05:00",
-            "18:05"
-          ],
-          "stations": [
-            {
-              "number": 1,
-              "name": "Station 1",
-              "duration_min": 0
-            },
-            {
-              "number": 2,
-              "name": "Station 2",
-              "duration_min": 5
-            },
-            {
-              "number": 3,
-              "name": "Station 3",
-              "duration_min": 0
-            },
-            {
-              "number": 4,
-              "name": "Station 4",
-              "duration_min": 0
-            }
-          ]
-        },
-        {
-          "id": "island__upper-sprays",
-          "name": "Upper Sprays",
-          "calendar": "Custom",
-          "days": [
-            "Monday",
-            "Tuesday",
-            "Wednesday",
-            "Thursday",
-            "Friday",
-            "Saturday",
-            "Sunday"
-          ],
-          "water_budget": 100,
-          "start_times": [
-            "05:10",
             "18:00"
           ],
           "stations": [
             {
               "number": 1,
               "name": "Station 1",
-              "duration_min": 5
+              "duration_min": 15
             },
             {
               "number": 2,
               "name": "Station 2",
-              "duration_min": 0
-            },
-            {
-              "number": 3,
-              "name": "Station 3",
-              "duration_min": 0
-            },
-            {
-              "number": 4,
-              "name": "Station 4",
-              "duration_min": 0
+              "duration_min": 15
             }
           ]
         }
@@ -511,30 +438,6 @@
         {
           "number": 2,
           "zone_name": "Island S2",
-          "last_verified": "",
-          "notes": "",
-          "checklist": [
-            {
-              "text": "Heads aligned / No mist / No leaks / Coverage even / Pressure OK",
-              "done": false
-            }
-          ]
-        },
-        {
-          "number": 3,
-          "zone_name": "Island S3",
-          "last_verified": "",
-          "notes": "",
-          "checklist": [
-            {
-              "text": "Heads aligned / No mist / No leaks / Coverage even / Pressure OK",
-              "done": false
-            }
-          ]
-        },
-        {
-          "number": 4,
-          "zone_name": "Island S4",
           "last_verified": "",
           "notes": "",
           "checklist": [
@@ -566,18 +469,20 @@
             "Saturday",
             "Sunday"
           ],
-          "water_budget": 100,
-          "start_times": [],
+          "water_budget": 80,
+          "start_times": [
+            "16:00"
+          ],
           "stations": [
             {
               "number": 1,
-              "name": "Top Garden 1",
-              "duration_min": 0
+              "name": "Station 1",
+              "duration_min": 60
             },
             {
               "number": 2,
-              "name": "Top Garden 2",
-              "duration_min": 0
+              "name": "Station 2",
+              "duration_min": 60
             }
           ]
         }

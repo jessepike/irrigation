@@ -1016,7 +1016,8 @@ function exportCSV() {
 // ==================== Save (GitHub commit) ====================
 async function saveChanges() {
   if (!STATE.pat) {
-    if (confirm('No GitHub token set. Open Settings?')) navigate('/settings');
+    toast('No GitHub token set — opening Settings.', true);
+    setTimeout(() => navigate('/settings'), 200);
     return;
   }
   const btn = $('#save-btn');
