@@ -3,14 +3,13 @@
   "source": "K-Rain dashboard via Gemini agent (irrigation_schedule_2026-05-08.csv)",
   "controllers": [
     {
-      "id": "front-garage",
-      "name": "Front Garage",
+      "id": "front-lawn-4",
+      "name": "Front-Lawn-4",
       "type": "krain",
-      "generation": "gen2",
       "programs": [
         {
-          "id": "front-garage__a",
-          "name": "Program A",
+          "id": "front-lawn-4__rotors",
+          "name": "Rotors",
           "calendar": "Custom",
           "days": [
             "Monday",
@@ -18,23 +17,32 @@
             "Wednesday",
             "Thursday",
             "Friday",
-            "Saturday",
-            "Sunday"
+            "Saturday"
           ],
           "water_budget": 80,
           "start_times": [
-            "04:30"
+            "00:30"
           ],
           "stations": [
             {
               "number": 1,
               "name": "Station 1",
-              "duration_min": 45
+              "duration_min": 20
             },
             {
               "number": 2,
               "name": "Station 2",
-              "duration_min": 45
+              "duration_min": 20
+            },
+            {
+              "number": 3,
+              "name": "Station 3",
+              "duration_min": 20
+            },
+            {
+              "number": 4,
+              "name": "Station 4",
+              "duration_min": 20
             }
           ]
         }
@@ -42,7 +50,7 @@
       "stations": [
         {
           "number": 1,
-          "zone_name": "Front Garage Rotors",
+          "zone_name": "Station 1",
           "last_verified": "",
           "notes": "",
           "checklist": [
@@ -54,7 +62,31 @@
         },
         {
           "number": 2,
-          "zone_name": "Front Garage Drip",
+          "zone_name": "Station 2",
+          "last_verified": "",
+          "notes": "",
+          "checklist": [
+            {
+              "text": "Heads aligned / No mist / No leaks / Coverage even / Pressure OK",
+              "done": false
+            }
+          ]
+        },
+        {
+          "number": 3,
+          "zone_name": "Station 3",
+          "last_verified": "",
+          "notes": "",
+          "checklist": [
+            {
+              "text": "Heads aligned / No mist / No leaks / Coverage even / Pressure OK",
+              "done": false
+            }
+          ]
+        },
+        {
+          "number": 4,
+          "zone_name": "Station 4",
           "last_verified": "",
           "notes": "",
           "checklist": [
@@ -67,270 +99,13 @@
       ]
     },
     {
-      "id": "front-lawn-4",
-      "name": "Front Lawn 4",
-      "type": "krain",
-      "programs": [
-        {
-          "id": "front-lawn-4__a",
-          "name": "Program A",
-          "calendar": "Custom",
-          "days": [
-            "Monday",
-            "Tuesday",
-            "Wednesday",
-            "Thursday",
-            "Friday",
-            "Saturday",
-            "Sunday"
-          ],
-          "water_budget": 80,
-          "start_times": [
-            "00:30"
-          ],
-          "stations": [
-            {
-              "number": 1,
-              "name": "Station 1",
-              "duration_min": 60
-            },
-            {
-              "number": 2,
-              "name": "Station 2",
-              "duration_min": 60
-            },
-            {
-              "number": 3,
-              "name": "Station 3",
-              "duration_min": 60
-            }
-          ]
-        }
-      ],
-      "stations": [
-        {
-          "number": 1,
-          "zone_name": "Front Lawn 4 S1",
-          "last_verified": "",
-          "notes": "",
-          "checklist": [
-            {
-              "text": "Heads aligned / No mist / No leaks / Coverage even / Pressure OK",
-              "done": false
-            }
-          ]
-        },
-        {
-          "number": 2,
-          "zone_name": "Front Lawn 4 S2",
-          "last_verified": "",
-          "notes": "",
-          "checklist": [
-            {
-              "text": "Heads aligned / No mist / No leaks / Coverage even / Pressure OK",
-              "done": false
-            }
-          ]
-        },
-        {
-          "number": 3,
-          "zone_name": "Front Lawn 4 S3",
-          "last_verified": "",
-          "notes": "",
-          "checklist": [
-            {
-              "text": "Heads aligned / No mist / No leaks / Coverage even / Pressure OK",
-              "done": false
-            }
-          ]
-        }
-      ],
-      "generation": "gen1"
-    },
-    {
-      "id": "garden-lawn-1",
-      "name": "Garden Lawn 1",
-      "type": "krain",
-      "programs": [
-        {
-          "id": "garden-lawn-1__a",
-          "name": "Program A",
-          "calendar": "Custom",
-          "days": [
-            "Monday",
-            "Tuesday",
-            "Wednesday",
-            "Thursday",
-            "Friday",
-            "Saturday",
-            "Sunday"
-          ],
-          "water_budget": 80,
-          "start_times": [
-            "20:15"
-          ],
-          "stations": [
-            {
-              "number": 1,
-              "name": "Station 1",
-              "duration_min": 45
-            },
-            {
-              "number": 2,
-              "name": "Station 2",
-              "duration_min": 45
-            }
-          ]
-        }
-      ],
-      "stations": [
-        {
-          "number": 1,
-          "zone_name": "Garden Lawn 1 S1",
-          "last_verified": "",
-          "notes": "",
-          "checklist": [
-            {
-              "text": "Heads aligned / No mist / No leaks / Coverage even / Pressure OK",
-              "done": false
-            }
-          ]
-        },
-        {
-          "number": 2,
-          "zone_name": "Garden Lawn 1 S2",
-          "last_verified": "",
-          "notes": "",
-          "checklist": [
-            {
-              "text": "Heads aligned / No mist / No leaks / Coverage even / Pressure OK",
-              "done": false
-            }
-          ]
-        }
-      ],
-      "generation": "gen1"
-    },
-    {
-      "id": "garden-lawn-2",
-      "name": "Garden Lawn 2",
-      "type": "krain",
-      "programs": [
-        {
-          "id": "garden-lawn-2__a",
-          "name": "Program A",
-          "calendar": "Custom",
-          "days": [
-            "Monday",
-            "Tuesday",
-            "Wednesday",
-            "Thursday",
-            "Friday",
-            "Saturday",
-            "Sunday"
-          ],
-          "water_budget": 80,
-          "start_times": [
-            "21:00"
-          ],
-          "stations": [
-            {
-              "number": 1,
-              "name": "Station 1",
-              "duration_min": 60
-            },
-            {
-              "number": 2,
-              "name": "Station 2",
-              "duration_min": 60
-            }
-          ]
-        }
-      ],
-      "stations": [
-        {
-          "number": 1,
-          "zone_name": "Garden Lawn 2 S1",
-          "last_verified": "",
-          "notes": "",
-          "checklist": [
-            {
-              "text": "Heads aligned / No mist / No leaks / Coverage even / Pressure OK",
-              "done": false
-            }
-          ]
-        },
-        {
-          "number": 2,
-          "zone_name": "Garden Lawn 2 S2",
-          "last_verified": "",
-          "notes": "",
-          "checklist": [
-            {
-              "text": "Heads aligned / No mist / No leaks / Coverage even / Pressure OK",
-              "done": false
-            }
-          ]
-        }
-      ],
-      "generation": "gen1"
-    },
-    {
       "id": "garden-lawn-3",
       "name": "Garden Lawn 3",
       "type": "krain",
       "programs": [
         {
-          "id": "garden-lawn-3__a",
-          "name": "Program A",
-          "calendar": "Custom",
-          "days": [
-            "Monday",
-            "Tuesday",
-            "Wednesday",
-            "Thursday",
-            "Friday",
-            "Saturday",
-            "Sunday"
-          ],
-          "water_budget": 80,
-          "start_times": [
-            "13:15"
-          ],
-          "stations": [
-            {
-              "number": 1,
-              "name": "Station 1",
-              "duration_min": 60
-            }
-          ]
-        }
-      ],
-      "stations": [
-        {
-          "number": 1,
-          "zone_name": "Garden Lawn 3",
-          "last_verified": "",
-          "notes": "",
-          "checklist": [
-            {
-              "text": "Heads aligned / No mist / No leaks / Coverage even / Pressure OK",
-              "done": false
-            }
-          ]
-        }
-      ],
-      "generation": "gen1"
-    },
-    {
-      "id": "hot-tub-plants",
-      "name": "Hot Tub Plants",
-      "type": "krain",
-      "generation": "gen1",
-      "programs": [
-        {
-          "id": "hot-tub-plants__a",
-          "name": "Program A",
+          "id": "garden-lawn-3__rotors",
+          "name": "Rotors",
           "calendar": "Custom",
           "days": [
             "Monday",
@@ -343,18 +118,14 @@
           ],
           "water_budget": 100,
           "start_times": [
+            "09:15",
             "17:00"
           ],
           "stations": [
             {
               "number": 1,
-              "name": "Hot Tub Plants Sprays",
-              "duration_min": 30
-            },
-            {
-              "number": 2,
-              "name": "Hot Tub Plants Drip",
-              "duration_min": 30
+              "name": "Rotors",
+              "duration_min": 20
             }
           ]
         }
@@ -362,7 +133,59 @@
       "stations": [
         {
           "number": 1,
-          "zone_name": "Hot Tub Plants Sprays",
+          "zone_name": "Rotors",
+          "last_verified": "",
+          "notes": "",
+          "checklist": [
+            {
+              "text": "Heads aligned / No mist / No leaks / Coverage even / Pressure OK",
+              "done": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "garden-lawn-1",
+      "name": "Garden lawn 1",
+      "type": "krain",
+      "programs": [
+        {
+          "id": "garden-lawn-1__rotors",
+          "name": "Rotors",
+          "calendar": "Custom",
+          "days": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+          ],
+          "water_budget": 100,
+          "start_times": [
+            "04:45",
+            "18:45"
+          ],
+          "stations": [
+            {
+              "number": 1,
+              "name": "Station 1",
+              "duration_min": 15
+            },
+            {
+              "number": 2,
+              "name": "Station 2",
+              "duration_min": 0
+            }
+          ]
+        }
+      ],
+      "stations": [
+        {
+          "number": 1,
+          "zone_name": "Station 1",
           "last_verified": "",
           "notes": "",
           "checklist": [
@@ -374,7 +197,71 @@
         },
         {
           "number": 2,
-          "zone_name": "Hot Tub Plants Drip",
+          "zone_name": "Station 2",
+          "last_verified": "",
+          "notes": "",
+          "checklist": [
+            {
+              "text": "Heads aligned / No mist / No leaks / Coverage even / Pressure OK",
+              "done": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "garden-lawn-2",
+      "name": "Garden-Lawn-2",
+      "type": "krain",
+      "programs": [
+        {
+          "id": "garden-lawn-2__rotors",
+          "name": "Rotors",
+          "calendar": "Custom",
+          "days": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+          ],
+          "water_budget": 100,
+          "start_times": [
+            "09:45",
+            "16:30"
+          ],
+          "stations": [
+            {
+              "number": 1,
+              "name": "Station 1",
+              "duration_min": 20
+            },
+            {
+              "number": 2,
+              "name": "Station 2",
+              "duration_min": 0
+            }
+          ]
+        }
+      ],
+      "stations": [
+        {
+          "number": 1,
+          "zone_name": "Station 1",
+          "last_verified": "",
+          "notes": "",
+          "checklist": [
+            {
+              "text": "Heads aligned / No mist / No leaks / Coverage even / Pressure OK",
+              "done": false
+            }
+          ]
+        },
+        {
+          "number": 2,
+          "zone_name": "Station 2",
           "last_verified": "",
           "notes": "",
           "checklist": [
@@ -392,8 +279,8 @@
       "type": "krain",
       "programs": [
         {
-          "id": "island__a",
-          "name": "Program A",
+          "id": "island__lower-sprays",
+          "name": "Lower Sprays",
           "calendar": "Custom",
           "days": [
             "Monday",
@@ -406,59 +293,35 @@
           ],
           "water_budget": 100,
           "start_times": [
-            "18:00"
+            "05:00",
+            "18:05"
           ],
           "stations": [
             {
               "number": 1,
               "name": "Station 1",
-              "duration_min": 15
+              "duration_min": 0
             },
             {
               "number": 2,
               "name": "Station 2",
-              "duration_min": 15
-            }
-          ]
-        }
-      ],
-      "stations": [
-        {
-          "number": 1,
-          "zone_name": "Island S1",
-          "last_verified": "",
-          "notes": "",
-          "checklist": [
+              "duration_min": 5
+            },
             {
-              "text": "Heads aligned / No mist / No leaks / Coverage even / Pressure OK",
-              "done": false
+              "number": 3,
+              "name": "Station 3",
+              "duration_min": 0
+            },
+            {
+              "number": 4,
+              "name": "Station 4",
+              "duration_min": 0
             }
           ]
         },
         {
-          "number": 2,
-          "zone_name": "Island S2",
-          "last_verified": "",
-          "notes": "",
-          "checklist": [
-            {
-              "text": "Heads aligned / No mist / No leaks / Coverage even / Pressure OK",
-              "done": false
-            }
-          ]
-        }
-      ],
-      "generation": "gen1"
-    },
-    {
-      "id": "top-garden",
-      "name": "Top Garden",
-      "type": "krain",
-      "generation": "gen2",
-      "programs": [
-        {
-          "id": "top-garden__a",
-          "name": "Program A",
+          "id": "island__upper-sprays",
+          "name": "Upper Sprays",
           "calendar": "Custom",
           "days": [
             "Monday",
@@ -469,20 +332,31 @@
             "Saturday",
             "Sunday"
           ],
-          "water_budget": 80,
+          "water_budget": 100,
           "start_times": [
-            "16:00"
+            "05:10",
+            "18:00"
           ],
           "stations": [
             {
               "number": 1,
               "name": "Station 1",
-              "duration_min": 60
+              "duration_min": 5
             },
             {
               "number": 2,
               "name": "Station 2",
-              "duration_min": 60
+              "duration_min": 0
+            },
+            {
+              "number": 3,
+              "name": "Station 3",
+              "duration_min": 0
+            },
+            {
+              "number": 4,
+              "name": "Station 4",
+              "duration_min": 0
             }
           ]
         }
@@ -490,7 +364,7 @@
       "stations": [
         {
           "number": 1,
-          "zone_name": "Top Garden 1",
+          "zone_name": "Station 1",
           "last_verified": "",
           "notes": "",
           "checklist": [
@@ -502,7 +376,31 @@
         },
         {
           "number": 2,
-          "zone_name": "Top Garden 2",
+          "zone_name": "Station 2",
+          "last_verified": "",
+          "notes": "",
+          "checklist": [
+            {
+              "text": "Heads aligned / No mist / No leaks / Coverage even / Pressure OK",
+              "done": false
+            }
+          ]
+        },
+        {
+          "number": 3,
+          "zone_name": "Station 3",
+          "last_verified": "",
+          "notes": "",
+          "checklist": [
+            {
+              "text": "Heads aligned / No mist / No leaks / Coverage even / Pressure OK",
+              "done": false
+            }
+          ]
+        },
+        {
+          "number": 4,
+          "zone_name": "Station 4",
           "last_verified": "",
           "notes": "",
           "checklist": [
